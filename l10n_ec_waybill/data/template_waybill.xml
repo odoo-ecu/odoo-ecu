@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <template id="guia_remision">
+
+    <guiaRemision id="comprobante" version="1.0.0">
+      <infoTributaria>
+        <ambiente t-esc="environment" />
+        <tipoEmision t-esc="issuing_type" />
+        <razonSocial t-esc="record.company_id.partner_id.name" />
+        <nombreComercial t-esc="record.company_id.partner_id.tradename" />
+        <ruc t-esc="record.company_id.vat" />
+        <!-- <claveAcceso t-esc="access_key"></claveAcceso> -->
+        <codDoc>06</codDoc>
+        <estab t-esc="record.l10n_ec_waybill_document_number[:3]" />
+        <ptoEmi t-esc="record.l10n_ec_waybill_document_number[4:7]" />
+        <secuencial t-esc="record.l10n_ec_waybill_document_number[8:17]" />
+        <dirMatriz t-esc="record.company_id.street" />
+        <regimenMicroempresas t-if="record.company_id.l10n_ec_regime_microenterprise">CONTRIBUYENTE RÉGIMEN MICROEMPRESAS</regimenMicroempresas>
+        <agenteRetencion t-if="record.company_id.company_registry" t-esc="record.company_id.company_registry" />
+      </infoTributaria>
+      <infoGuiaRemision>
+        <!-- <dirEstablecimiento t-if="record.l10n_ec_waybill_shop_address" t-esc="record.l10n_ec_waybill_shop_address" /> -->
+        <dirPartida t-esc="record.location_id.get_warehouse().partner_id.street" />
+        <razonSocialTransportista t-esc="record.driver_id.name" />
+        <tipoIdentificacionTransportista t-esc="driver_partner_type" />
+        <rucTransportista t-esc="record.driver_id.vat" />
+        <obligadoContabilidad t-if="record.company_id.l10n_ec_enforced_accounting">SI</obligadoContabilidad>
+        <t t-if="record.company_id.company_registry">
+          <contribuyenteEspecial t-if="record.company_id.company_registry" />
+        </t>
+        <fechaIniTransporte t-field="record.date" t-options="{'format': 'dd/MM/YYYY'}" />
+        <fechaFinTransporte t-field="record.date_due" t-options="{'format': 'dd/MM/YYYY'}" />
+        <placa t-esc="record.vehicle_id.license_plate" />
+      </infoGuiaRemision>
+      <destinatarios>
+        <t t-foreach="record.picking_ids" t-as="pick">
+          <destinatario>
+            <identificacionDestinatario t-esc="pick.picking_id.l10n_ec_waybill_partner_vat" />
+            <razonSocialDestinatario t-esc="pick.picking_id.l10n_ec_waybill_partner_name" />
+            <dirDestinatario t-esc="pick.picking_id.l10n_ec_waybill_partner_street" />
+            <t t-if="pick.picking_id.l10n_ec_waybill_invoice_auth != ''">
+              <motivoTraslado>VENTA</motivoTraslado>
+              <ruta>VENTA</ruta>
+              <codDocSustento>01</codDocSustento>
+              <numDocSustento t-esc="pick.picking_id.l10n_ec_waybill_invoice_number" />
+              <numAutDocSustento t-esc="pick.picking_id.l10n_ec_waybill_invoice_auth" />
+              <fechaEmisionDocSustento t-field="pick.picking_id.l10n_ec_waybill_invoice_date" t-options="{'format': 'dd/MM/YYYY'}"/>
+            </t>
+            <t t-else="">
+              <motivoTraslado>MOVIMIENTO INTERNO</motivoTraslado>
+              <ruta>MOVIMIENTO INTERNO</ruta>
+            </t>
+            <detalles>
+              <t t-foreach="pick.picking_id.move_line_ids_without_package" t-as="line" >
+                <detalle>
+                  <codigoInterno t-esc="line.product_id.default_code" />
+                  <descripcion t-esc="line.product_id.name" />
+                  <cantidad t-esc="line.qty_done" />
+                  <detallesAdicionales>
+                    <t t-if="line.lot_id.name" >
+                      <detAdicional nombre="lote" t-att-valor="line.lot_id.name" />
+                    </t>
+                  </detallesAdicionales>
+                </detalle>
+              </t>
+            </detalles>
+          </destinatario>
+        </t>
+      </destinatarios>
+      <infoAdicional>
+        <campoAdicional nombre="email" t-field="record.driver_id.email" />
+        <t t-foreach="record.l10n_ec_add_info_ids" t-as="addinfo">
+          <campoAdicional t-attf-nombre="{{ addinfo.key }}" t-esc="addinfo.value" />
+        </t>
+      </infoAdicional>
+    </guiaRemision>
+      
+  </template>
+</odoo>

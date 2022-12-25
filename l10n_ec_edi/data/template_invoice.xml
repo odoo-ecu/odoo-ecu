@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <template id="infoTributaria">
+    <infoTributaria>
+      <ambiente t-esc="environment" />
+      <tipoEmision t-esc="issuing_type" />
+      <razonSocial t-esc="company.name"></razonSocial>
+      <nombreComercial t-esc="company.partner_tradename"></nombreComercial>
+      <ruc t-esc="company.vat"></ruc>
+      <!-- <claveAcceso t-esc="access_key"></claveAcceso> -->
+      <codDoc t-esc="document_code"></codDoc>
+      <estab t-esc="document_number[:3]"></estab>
+      <ptoEmi t-esc="document_number[4:7]"></ptoEmi>
+      <secuencial t-esc="document_number[8:17]"></secuencial>
+      <dirMatriz t-esc="company.partner_id.street"></dirMatriz>
+      <regimenMicroempresas t-if="l10n_ec_regime_microenterprise">CONTRIBUYENTE RÉGIMEN MICROEMPRESAS</regimenMicroempresas>
+      <agenteRetencion t-if="record.company_id.company_registry" t-esc="record.company_id.company_registry"></agenteRetencion>
+    </infoTributaria>
+  </template>
+
+  <template id="facturaTotalConImpuestos">
+    <totalConImpuestos>
+      <t t-foreach="taxes" t-as="tax">
+        <totalImpuesto>
+          <codigo t-esc="tax[0]"></codigo>
+          <codigoPorcentaje t-esc="tax[1]"></codigoPorcentaje>
+          <baseImponible t-esc="'{:.2f}'.format(tax[2])"></baseImponible>
+          <valor t-esc="'{:.2f}'.format(tax[3])"></valor>
+        </totalImpuesto>
+      </t>
+    </totalConImpuestos>
+  </template>
+
+  <template id="facturaDetalles">
+  </template>
+
+  <template id="factura">
+    <factura id="comprobante" version="1.1.0">
+      <t t-call="l10n_ec_edi.infoTributaria">
+        <t t-set="company" t-value="record.company_id"></t>
+        <t t-set="access_key" t-value="record.l10n_ec_move_access_key"></t>
+        <t t-set="document_code" t-value="document_code"></t>
+        <t t-set="document_number" t-value="record.l10n_latam_document_number" ></t>
+      </t>
+      <infoFactura>
+        <fechaEmision t-esc="record.invoice_date.strftime('%d/%m/%Y')"></fechaEmision>
+        <dirEstablecimiento t-esc="record.journal_id.l10n_ec_shop_address_id.street"></dirEstablecimiento>
+        <contribuyenteEspecial t-if="record.company_id.company_registry" t-esc="record.company_id.company_registry"></contribuyenteEspecial>
+        <t t-if="record.company_id.l10n_ec_enforced_accounting">
+          <obligadoContabilidad>SI</obligadoContabilidad>
+        </t>
+        <tipoIdentificacionComprador t-esc="partner_type"></tipoIdentificacionComprador>
+        <!-- <guiaRemision></guiaRemision> -->
+        <razonSocialComprador t-esc="record.partner_id.name"></razonSocialComprador>
+        <identificacionComprador t-esc="record.partner_id.vat"></identificacionComprador>
+        <direccionComprador t-esc="record.partner_id.street"></direccionComprador>
+        <totalSinImpuestos t-esc="'{:.2f}'.format(record.amount_untaxed)"></totalSinImpuestos>
+        <totalDescuento>0.00</totalDescuento>
+        <t t-call="l10n_ec_edi.facturaTotalConImpuestos">
+          <t t-set="taxes" t-value="record.l10n_ec_edi_amount_by_group"></t>
+        </t>
+        <propina></propina>
+        <importeTotal t-esc="'{:.2f}'.format(record.amount_total)"></importeTotal>
+        <moneda>DOLAR</moneda>
+        <pagos>
+          <pago>
+            <formaPago>20</formaPago>
+            <total t-esc="'{:.2f}'.format(record.amount_total)"></total>
+            <plazo>0</plazo>
+            <unidadTiempo>dias</unidadTiempo>
+          </pago>
+        </pagos>
+      </infoFactura>
+      <detalles>
+        <t t-foreach="record.invoice_line_ids.filtered(lambda l: not l.display_type)" t-as="line">
+          <detalle>
+            <codigoPrincipal t-esc="line.product_id.default_code"></codigoPrincipal>
+            <codigoAuxiliar t-esc="line.product_id.barcode"></codigoAuxiliar>
+            <descripcion t-esc="line.name.strip().replace('\n', '')" ></descripcion>
+            <cantidad t-esc="line.quantity"></cantidad>
+            <precioUnitario t-esc="'{:.2f}'.format(line.price_unit)" ></precioUnitario>
+            <descuento t-esc="'{:.2f}'.format(line.quantity * line.price_unit * line.discount / 100)"></descuento>
+            <precioTotalSinImpuesto t-esc="'{:.2f}'.format(line.price_subtotal)"></precioTotalSinImpuesto>
+            <impuestos>
+              <t t-foreach="line.tax_ids" t-as="tax">
+                <impuesto>
+                  <codigo t-esc="tax.tax_group_id.l10n_ec_edi_group_code"></codigo>
+                  <codigoPorcentaje t-esc="tax.tax_group_id.l10n_ec_edi_percentage_code"></codigoPorcentaje>
+                  <tarifa t-esc="tax.tax_group_id.l10n_ec_edi_percentage"></tarifa>
+                  <baseImponible t-esc="'{:.2f}'.format(line.price_subtotal)"></baseImponible>
+                  <valor t-esc="'{:.2f}'.format(line.price_subtotal * tax.amount / 100)"></valor>
+                </impuesto>
+              </t>
+            </impuestos>
+          </detalle>
+        </t>
+      </detalles>
+        <infoAdicional>
+          <campoAdicional nombre="email" t-field="record.partner_id.email" />
+          <t t-foreach="record.l10n_ec_add_info_ids" t-as="addinfo">
+            <campoAdicional t-attf-nombre="{{ addinfo.key }}" t-esc="addinfo.value" />
+          </t>
+        </infoAdicional>
+    </factura>
+  </template>
+
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="partner_view_form_info" model="ir.ui.view">
+            <field name="name">Tradename - Partner from view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after" >
+                    <field name="tradename" placeholder="Nombre Comercial" />
+                </xpath>
+            </field>
+        </record>
+        <record id="view_partner_tree" model="ir.ui.view">
+            <field name="name">Tradename - Partner tree view</field>
+            <field name="model">res.partner</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <tree>
+                        <field name="tradename" />
+                    </tree>
+                </data>
+            </field>
+        </record>
+        <record id="view_res_partner_filter" model="ir.ui.view" >
+            <field name="name">Tradename - Partner search view</field>
+            <field name="model">res.partner</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='name']" position="after" >
+                        <field name="tradename" />
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

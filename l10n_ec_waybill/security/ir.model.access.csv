@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ec_waybill_user,ec.waybill user,model_ec_waybill,stock.group_stock_user,1,1,1,0
+access_ec_waybill_manager,ec_waybill manager,model_ec_waybill,stock.group_stock_manager,1,1,1,1
+access_ec_waybill_picking_user,ec.waybill.picking user,model_ec_waybill_picking,stock.group_stock_user,1,1,1,1
+access_ec_waybill_picking_manager,ec.waybill.picking user,model_ec_waybill_picking,stock.group_stock_manager,1,1,1,1
+access_account_waybill_add_info_manager,ec.move.add.info manager,model_ec_waybill_additional_info,account.group_account_manager,1,0,0,0
+access_account_waybill_add_info_readonly,ec.move.line readonly,model_ec_waybill_additional_info,account.group_account_readonly,1,0,0,0
+access_account_waybill_add_info_uinvoice,ec.move.line invoice,model_ec_waybill_additional_info,account.group_account_invoice,1,1,1,1

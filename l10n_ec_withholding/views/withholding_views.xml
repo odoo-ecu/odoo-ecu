@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record id="account_move_view_form" model="ir.ui.view">
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_move_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//group[@id='header_right_group']" position="inside">
+        <field name="l10n_ec_withholding_type" invisible="1"/>
+        <field name="l10n_ec_highest_withholding_number" invisible="1" />
+        <field name="l10n_ec_withholding_number" attrs="{'invisible': [('l10n_ec_highest_withholding_number', '=', '/')]}" />
+        <field name="l10n_ec_withholding_data" invisible="1"/>
+      </xpath>
+      <!-- <field name="l10n_latam_document_number" position="after">
+      </field>  -->
+    </field>
+</record>
+
+</odoo>

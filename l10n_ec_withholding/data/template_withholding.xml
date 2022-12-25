@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <template id="infoTributaria">
+    <infoTributaria>
+      <ambiente t-esc="environment" />
+      <tipoEmision t-esc="issuing_type" />
+      <razonSocial t-esc="company.name"></razonSocial>
+      <nombreComercial t-esc="company.partner_tradename"></nombreComercial>
+      <ruc t-esc="company.vat"></ruc>
+      <!-- <claveAcceso t-esc="access_key"></claveAcceso> -->
+      <codDoc>07</codDoc>
+      <estab t-esc="document_number[:3]"></estab>
+      <ptoEmi t-esc="document_number[4:7]"></ptoEmi>
+      <secuencial t-esc="document_number[8:17]"></secuencial>
+      <dirMatriz t-esc="company.partner_id.street"></dirMatriz>
+      <regimenMicroempresas t-if="l10n_ec_regime_microenterprise">CONTRIBUYENTE RÉGIMEN MICROEMPRESAS</regimenMicroempresas>
+      <agenteRetencion t-if="record.company_id.company_registry" t-esc="record.company_id.company_registry"></agenteRetencion>
+    </infoTributaria>
+  </template>
+
+  <template id="retencion">
+    <comprobanteRetencion id="comprobante" version="1.0.0">
+      <t t-call="l10n_ec_withholding.infoTributaria">
+        <t t-set="company" t-value="record.company_id"></t>
+        <!-- <t t-set="access_key" t-value="record.l10n_ec_move_access_key"></t> -->
+        <t t-set="document_code" t-value="document_code"></t>
+        <t t-set="document_number" t-value="record.l10n_ec_withholding_number" ></t>
+      </t>
+			<infoCompRetencion>
+        <fechaEmision t-field="record.date" t-field-options="{'format': 'dd/MM/YYYY'}"/>
+        <dirEstablecimiento t-esc="record.journal_id.l10n_ec_shop_address_id.street"></dirEstablecimiento>
+        <contribuyenteEspecial t-if="record.company_id.company_registry" t-esc="record.company_id.company_registry"></contribuyenteEspecial>
+        <t t-if="record.company_id.l10n_ec_enforced_accounting">
+          <obligadoContabilidad>SI</obligadoContabilidad>
+        </t>
+        <tipoIdentificacionSujetoRetenido t-esc="partner_type" />
+        <razonSocialSujetoRetenido t-esc="record.partner_id.name" />
+        <identificacionSujetoRetenido t-esc="record.partner_id.vat" />
+        <periodoFiscal t-esc="record.date.strftime('%m/%Y')" />
+			</infoCompRetencion>
+			<impuestos>
+        <t t-foreach="record.l10n_ec_withholding_data" t-as="tax">
+				<impuesto>
+          <codigo t-esc="tax['codigo']" />
+          <codigoRetencion t-esc="tax['codigo_retencion']" />
+          <baseImponible t-esc="'{0:.2f}'.format(tax['base_imponible'])" />
+          <porcentajeRetener t-esc="'{0:.2f}'.format(tax['porcentaje_retener'])"/>
+          <valorRetenido t-esc="'{0:.2f}'.format(tax['valor_retenido'])" />
+          <codDocSustento t-esc="record.l10n_latam_document_type_id.code" />
+          <numDocSustento t-esc="record.l10n_latam_document_number.replace('-', '')" />
+          <fechaEmisionDocSustento t-field="record.invoice_date" t-field-options="{'format': 'dd/MM/YYYY'}" />
+				</impuesto>
+        </t>
+			</impuestos>
+      <infoAdicional>
+        <campoAdicional nombre="email" t-field="record.partner_id.email" />
+      </infoAdicional>
+    </comprobanteRetencion>
+  </template>
+
+</odoo>
+

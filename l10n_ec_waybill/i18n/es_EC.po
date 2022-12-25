@@ -1,0 +1,391 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_ec_waybill
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-02 01:54+0000\n"
+"PO-Revision-Date: 2021-12-01 20:56-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es_EC\n"
+"X-Generator: Poedit 2.4.2\n"
+
+#. module: l10n_ec_waybill
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.guia_remision
+msgid "01"
+msgstr ""
+
+#. module: l10n_ec_waybill
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.guia_remision
+msgid "06"
+msgstr ""
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__l10n_ec_waybill_access_key
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_access_key
+msgid "Access Key"
+msgstr "Clave de Acceso"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__active
+msgid "Active"
+msgstr "Activo"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__l10n_ec_add_info_ids
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.ec_waybill_view_form
+msgid "Additional Info"
+msgstr "Información Adicional"
+
+#. module: l10n_ec_waybill
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.guia_remision
+msgid "CONTRIBUYENTE RÉGIMEN MICROEMPRESAS"
+msgstr ""
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields.selection,name:l10n_ec_waybill.selection__ec_waybill__state__cancel
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__company_id
+msgid "Company"
+msgstr "Compañía"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__create_uid
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_additional_info__create_uid
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__create_date
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_additional_info__create_date
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__picking_ids
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.ec_waybill_view_form
+msgid "Delivery Orders"
+msgstr "Órdenes de Entrega"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__name
+msgid "Description"
+msgstr "Descripción"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__l10n_ec_waybill_location_dest_id
+msgid "Dest. Location"
+msgstr ""
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__display_name
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_additional_info__display_name
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__display_name
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__l10n_ec_waybill_document_number
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_document_number
+msgid "Document Number"
+msgstr "Número de Documento"
+
+#. module: l10n_ec_waybill
+#: code:addons/l10n_ec_waybill/models/stock_picking.py:0
+#: code:addons/l10n_ec_waybill/models/waybill.py:0
+#, python-format
+msgid "Document number format invalid {}"
+msgstr "Formato del número de documento inválido ()"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields.selection,name:l10n_ec_waybill.selection__ec_waybill__state__done
+msgid "Done"
+msgstr "Finalizado"
+
+#. module: l10n_ec_waybill
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.ec_waybill_view_form
+msgid "EDI Ecuador"
+msgstr ""
+
+#. module: l10n_ec_waybill
+#: model:ir.model,name:l10n_ec_waybill.model_ec_waybill_additional_info
+msgid "Ec Waybill Additional Info"
+msgstr ""
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_additional_info__waybill_id
+msgid "EcWaybill"
+msgstr ""
+
+#. module: l10n_ec_waybill
+#: model:ir.model,name:l10n_ec_waybill.model_ec_waybill
+msgid "Ecuador Waybill"
+msgstr "Gúia de Remisión Ecuador"
+
+#. module: l10n_ec_waybill
+#: model:ir.model,name:l10n_ec_waybill.model_ec_waybill_picking
+msgid "Ecuador Waybill Picking"
+msgstr "Transferencia Guía de Remisión"
+
+#. module: l10n_ec_waybill
+#: code:addons/l10n_ec_waybill/models/waybill.py:0
+#, python-format
+msgid "Guia Remision: %s"
+msgstr "Guía de Remisión: %s"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__id
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_additional_info__id
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__id
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields.selection,name:l10n_ec_waybill.selection__ec_waybill__state__in-progress
+msgid "In-Progress"
+msgstr "En Progreso"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_invoice_number
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_invoice_auth
+msgid "Invoice Authorization"
+msgstr "Autorización de la Factura"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_invoice_date
+msgid "Invoice Date"
+msgstr "Fecha Factura"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__l10n_ec_waybill_invoice_number
+msgid "Invoice Number"
+msgstr "Número de Factura"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_additional_info__key
+msgid "Key"
+msgstr "Nombre"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_id
+msgid "L10N Ec Waybill"
+msgstr "Guía de Remisión EC"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill____last_update
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_additional_info____last_update
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking____last_update
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking____last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__write_uid
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_additional_info__write_uid
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__write_uid
+msgid "Last Updated by"
+msgstr "Última Modificación por"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__write_date
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_additional_info__write_date
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__write_date
+msgid "Last Updated on"
+msgstr "Última Modificación en"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__l10n_ec_waybill_location_id
+msgid "Location"
+msgstr "Ubiación"
+
+#. module: l10n_ec_waybill
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.guia_remision
+msgid "MOVIMIENTO INTERNO"
+msgstr ""
+
+#. module: l10n_ec_waybill
+#: model_terms:ir.actions.act_window,help:l10n_ec_waybill.l10n_ec_waybill_action
+msgid "No waybill found. Let's create one!"
+msgstr "No se han encontrado guías de remisión. ¡Vamos a crear una!"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__note
+msgid "Note"
+msgstr "Nota"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__name
+msgid "Number"
+msgstr "Número"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__picking_id
+msgid "Picking"
+msgstr "Transferencia"
+
+#. module: l10n_ec_waybill
+#: code:addons/l10n_ec_waybill/models/waybill.py:0
+#, python-format
+msgid "Please setup a new sequence"
+msgstr "Por favor cree una secuencia"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__user_id
+msgid "Responsible User"
+msgstr "Usuario Responsable"
+
+#. module: l10n_ec_waybill
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.guia_remision
+msgid "SI"
+msgstr "SI"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__location_id
+msgid "Source Location"
+msgstr "Ubicación Origen"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields.selection,name:l10n_ec_waybill.selection__ec_waybill__state__draft
+msgid "Start"
+msgstr "Inicio"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__state
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_ec_waybill
+#: model:ir.model,name:l10n_ec_waybill.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__date
+msgid "Transport Date"
+msgstr "Fecha Transporte"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__date_due
+msgid "Transport Due Date"
+msgstr "Fecha Fin Transporte"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__transport_end_date
+msgid "Transport End Date"
+msgstr "Fecha Fin Transporte"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__transport_start_date
+msgid "Transport Start Date"
+msgstr "Fecha Inicio Transporte"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__vehicle_id
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__vehicle_id
+msgid "Transport Vehicle"
+msgstr "Vehículo"
+
+#. module: l10n_ec_waybill
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.guia_remision
+msgid "VENTA"
+msgstr ""
+
+#. module: l10n_ec_waybill
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.ec_waybill_view_form
+msgid "Validate"
+msgstr "Validar"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_additional_info__value
+msgid "Value"
+msgstr "Valor"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__driver_id
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__driver_id
+msgid "Vehicle Driver"
+msgstr "Conductor"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields.selection,name:l10n_ec_waybill.selection__ec_waybill__state__waiting
+msgid "Waiting"
+msgstr "Esperando"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill_picking__l10n_ec_waybill_id
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.ec_waybill_view_form
+msgid "Waybill"
+msgstr "Guía de Remisión"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__l10n_ec_waybill_last_sequence
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_last_sequence
+msgid "Waybill Last Sequence"
+msgstr "Última secuencia Guía de Remisión"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_partner_name
+msgid "Waybill Partner Name"
+msgstr "Nombre del Cliente GR"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_partner_street
+msgid "Waybill Partner Street"
+msgstr "Dirección Cliente GR"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_partner_vat
+msgid "Waybill Partner VAT"
+msgstr "RUC Cliente GR"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__l10n_ec_waybill_warehouse_id
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_warehouse_id
+msgid "Waybill Warehouse"
+msgstr "Almacén GR"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_ec_waybill__l10n_ec_waybill_before
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__l10n_ec_waybill_before
+msgid "Waybill before"
+msgstr "Antes GR"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.constraint,message:l10n_ec_waybill.constraint_ec_waybill_waybill_document_number_uniq
+msgid "Waybill document number must be unique"
+msgstr "El número de la guía de remisión debe ser único"
+
+#. module: l10n_ec_waybill
+#: model:ir.model.fields,field_description:l10n_ec_waybill.field_stock_picking__is_l10n_ec_waybill
+msgid "Waybill?"
+msgstr "GR?"
+
+#. module: l10n_ec_waybill
+#: model:ir.actions.act_window,name:l10n_ec_waybill.l10n_ec_waybill_action
+#: model:ir.ui.menu,name:l10n_ec_waybill.all_waybills
+#: model_terms:ir.ui.view,arch_db:l10n_ec_waybill.ec_waybill_view_tree
+msgid "Waybills"
+msgstr "Guías de Remisión"
+
+#. module: l10n_ec_waybill
+#: model_terms:ir.actions.act_window,help:l10n_ec_waybill.l10n_ec_waybill_action
+msgid "Waybills allow you to move products from one location to another."
+msgstr "Las Guías de Remisión permiten mover productos de una ubicación a otra."

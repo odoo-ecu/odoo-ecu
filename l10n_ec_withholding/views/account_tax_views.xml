@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record id="account_tax_view_withholding_form" model="ir.ui.view">
+    <field name="model">account.tax</field>
+    <field name="inherit_id" ref="l10n_ec.account_tax_form_view" />
+    <field name="arch" type="xml">
+      <field name="l10n_ec_code_ats" position="after">
+        <label for="withhold_amount" attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division'))]}"/>
+        <div attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division'))]}">
+            <field name="withhold_amount" class="oe_inline"/>
+            <span class="o_form_label oe_inline" attrs="{'invisible':[('amount_type','=','fixed')]}">%</span>
+        </div>
+      </field>
+    </field>
+</record>
+
+</odoo>

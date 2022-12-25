@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <record id="ec_waybill_view_tree" model="ir.ui.view">
+      <field name="model">ec.waybill</field>
+      <field name="type">tree</field>
+      <field name="arch" type="xml">
+          <tree string="Waybills">
+              <field name="name"/>
+              <field name="date"/>
+              <field name="date_due"/>
+              <field name="vehicle_id"/>
+              <field name="driver_id"/>
+              <field name="location_id"/>
+          </tree>
+      </field>
+  </record>
+
+  <record id="ec_waybill_view_form" model="ir.ui.view">
+      <field name="model">ec.waybill</field>
+      <field name="arch" type="xml">
+          <form string="Waybill">
+              <header>
+                  <button string="Validate" states="draft,waiting" type="object" name="action_validate" />
+                  <field name="state" widget="statusbar" statusbar_visible="draft,waiting,done,cancel,in-progress" />
+              </header>
+              <sheet>
+                  <div class="oe_title">
+                      <h1>
+                          <field name="name" attrs="{'invisible': [('l10n_ec_waybill_document_number', '=', False)]}"/>
+                      </h1>
+                  </div>
+                  <group col="4">
+                      <field name="date"/>
+                      <field name="date_due"/>
+                      <field name="vehicle_id"/>
+                      <field name="driver_id"/>
+                      <field name="user_id"/>
+                      <field name="location_id"/>
+                      <field name="l10n_ec_waybill_access_key" attrs="{'invisible': [('l10n_ec_waybill_access_key', '=', '')]}"/>
+                      <field name="l10n_ec_waybill_document_number" attrs="{'invisible': ['|', ('l10n_ec_waybill_last_sequence', '!=', '/'), ('location_id', '=', False)]}"/>
+                      <field name="l10n_ec_waybill_last_sequence" invisible="1"/>
+
+                  </group>
+                  <notebook>
+                      <page string="Delivery Orders">
+                          <field name="picking_ids">
+                              <tree editable="botton">
+                                  <field name="picking_id" domain="[('location_id', '=', parent.location_id)]"/>
+                                  <field name="l10n_ec_waybill_invoice_number"/>
+                                  <field name="l10n_ec_waybill_location_dest_id"/>
+                              </tree>
+                          </field>
+                      </page>
+                      <page string="EDI Ecuador">
+                          <group string="Additional Info">
+                            <field name="l10n_ec_add_info_ids" nolabel="1" >
+                                <tree editable="bottom">
+                                    <field name="key"/>
+                                    <field name="value"/>
+                                </tree>
+                            </field>
+                          </group>
+                      </page>
+                  </notebook>
+              </sheet>
+          </form>
+      </field>
+  </record>
+
+  <record id="l10n_ec_waybill_action" model="ir.actions.act_window">
+    <field name="name">Waybills</field>
+    <field name="res_model">ec.waybill</field>
+    <!-- <field name="view_type">form</field> -->
+    <field name="type">ir.actions.act_window</field>
+    <field name="view_mode">tree,form</field>
+    <!-- <field name="domain"></field> -->
+    <!-- <field name="context">{'contact_display': 'partner_address'}</field> -->
+    <!-- <field name="search_view_id" ref="view_picking_internal_search"/> -->
+    <field name="help" type="html">
+       <p class="o_view_nocontent_smiling_face">
+           No waybill found. Let's create one!
+       </p><p>
+           Waybills allow you to move products from one location to another.
+       </p>
+    </field>
+  </record>
+
+  <menuitem id="all_waybills" name="Waybills" parent="stock.menu_stock_warehouse_mgmt" sequence="100" action="l10n_ec_waybill_action" groups="stock.group_stock_manager,stock.group_stock_user"/>
+
+
+</odoo>

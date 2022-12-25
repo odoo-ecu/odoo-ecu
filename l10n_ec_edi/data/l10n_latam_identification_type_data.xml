@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <!-- <data noupdate="0"> -->
+    <record id="l10n_latam_base.it_vat" model='l10n_latam.identification.type'>
+      <field name="l10n_ec_id_edi_code">04</field>
+    </record>
+    <record id="l10n_latam_base.it_pass" model='l10n_latam.identification.type'>
+      <field name="l10n_ec_id_edi_code">06</field>
+    </record>
+    <record id="l10n_latam_base.it_fid" model='l10n_latam.identification.type'>
+      <field name="l10n_ec_id_edi_code">08</field>
+    </record>
+    <record id="l10n_ec.ec_ruc" model='l10n_latam.identification.type'>
+      <field name="l10n_ec_id_edi_code">04</field>
+    </record>
+    <record id="l10n_ec.ec_dni" model='l10n_latam.identification.type'>
+      <field name="l10n_ec_id_edi_code">05</field>
+    </record>
+
+  <!-- </data> -->
+
+</odoo>
