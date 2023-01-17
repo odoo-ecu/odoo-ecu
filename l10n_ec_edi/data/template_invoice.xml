@@ -39,7 +39,7 @@
     <factura id="comprobante" version="1.1.0">
       <t t-call="l10n_ec_edi.infoTributaria">
         <t t-set="company" t-value="record.company_id"></t>
-        <t t-set="access_key" t-value="record.l10n_ec_move_access_key"></t>
+        <t t-set="access_key" t-value="access_key"></t>
         <t t-set="document_code" t-value="document_code"></t>
         <t t-set="document_number" t-value="record.l10n_latam_document_number" ></t>
       </t>

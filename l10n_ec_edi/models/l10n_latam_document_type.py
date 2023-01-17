@@ -8,10 +8,10 @@ class L10NLatamDocumentType(models.Model):
     _inherit = 'l10n_latam.document.type'
 
     l10n_ec_edi_code = fields.Char("Edi Code")
-    account_edi_format_id = fields.Many2one(
-        'account.edi.format',
-        'Account Edi Format')
-    
-    
-    
+    # account_edi_format_id = fields.Many2one(
+    #     'account.edi.format',
+    #     'Account Edi Format')
+
+
+
 

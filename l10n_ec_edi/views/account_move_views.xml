@@ -8,7 +8,7 @@
         <xpath expr="//notebook" position="inside">
             <page string="EDI Ecuador">
                 <group>
-                    <group>
+                    <!-- <group>
                         <field name="l10n_ec_move_access_key"/>
                         <field name="l10n_ec_withholding_access_key"/>
                         <field name="l10n_ec_move_numeric_code"/>
@@ -16,7 +16,7 @@
                         <field name="l10n_ec_edi_issuing_type"/>
                         <field name="l10n_ec_edi_environment_type"/>
                         <field name="l10n_ec_edi_amount_by_group"/>
-                    </group>
+                    </group> -->
                     <group string="Additional Info">
                         <field name="l10n_ec_add_info_ids" nolabel="1" >
                             <tree editable="bottom">
@@ -28,6 +28,14 @@
                 </group>
             </page>
         </xpath>
+        <div class="oe_button_box" position="inside">
+            <button type="object" class="oe_stat_button" name="action_view_edi_documents" icon="fa-plus" >
+                <!-- <div class="o_field_widget o_stat_info">
+                    <span class="o_stat_value"><field name="debit_note_count"/></span>
+                    <span class="o_stat_text">Debit Notes</span>
+                </div> -->
+            </button>
+        </div>
     </field>
 </record>
 

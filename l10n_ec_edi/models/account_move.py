@@ -3,37 +3,18 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import logging
-import base64
-import json
-from ecedi import accesskey
+from random import randint
 from odoo import _, api, fields, models
-from odoo.tools.misc import formatLang, format_date, get_lang
+from odoo.exceptions import UserError
 from collections import defaultdict
 
 _logger = logging.getLogger(__name__)
 
+
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    l10n_ec_move_access_key = fields.Char("Move Access Key")
-    l10n_ec_withholding_access_key = fields.Char("Withholding Access Key")
-
-    l10n_ec_move_numeric_code = fields.Char("Numeric Code", default="00000000")
-    l10n_ec_withholding_numeric_code = fields.Char("Withholding Numeric Code", default="00000000")
-
-    l10n_ec_edi_issuing_type = fields.Selection([
-        ('1', 'Normal')],
-        "Issuing Type",
-        default='1',
-    )
-
-    l10n_ec_edi_environment_type = fields.Selection([
-        ('1', 'Testing'),
-        ('2', 'Production'),
-        ], "Environment Type", default='1',
-        compute="_compute_edi_environment",
-        readonly=False
-    )
+    l10n_ec_edi_not_compatible = fields.Boolean('EC EDI not compatible')
 
     l10n_ec_edi_amount_by_group = fields.Binary(string="L10n EC Tax amount by group",
         compute='_l10n_ec_edi_compute_invoice_taxes_by_group',
@@ -44,38 +25,104 @@ class AccountMove(models.Model):
         'move_id',
         'Additional Info')
 
-    @api.depends("name")
-    def _compute_edi_environment(self):
-        edi_environment_type = self.env['ir.config_parameter'].sudo().get_param("l10n_ec_edi.environment_type")
+    def _validate_edi_config(self):
         for move in self:
-            move.l10n_ec_edi_environment_type = edi_environment_type
+            pass
 
+    @api.model
+    def compute_check_digit(
+            self, number,
+            factors='765432765432765432765432765432765432765432765432'):
+        # Electronic voucher data sheet, p. 4
+        # Modulus 11 checking method
+        if not all([d.isdigit() for d in number]):
+            return -1
+        cd = 11 - sum([int(x[0])*int(x[1]) for x in zip(number, factors)]) % 11
+        if cd == 11: return 0 # when check digit is 11 return 0. Data sheet p. 4
+        if cd == 10: return 1 # when check digit is 10 return 1. Data sheet p. 4
+        return str(cd)
 
-    @api.depends('invoice_date', 'l10n_latam_document_number', 'l10n_ec_edi_environment_type', 'l10n_ec_edi_issuing_type', 'l10n_latam_document_type_id')
+    @api.model
+    def is_valid(self, number):
+        if not all([d.isdigit() for d in number]):
+            return False
+        return self.compute_check_digit(number) == int(number[-1])
+
+    @api.model
+    def compute_numeric_code(self):
+        return "".join([str(randint(0, 9)) for i in range(8)])
+
     def _compute_l10n_ec_move_ak(self):
         """Compute access key for electronic voucher"""
 
+        res = []
         for move in self:
             if not move.invoice_date or not move.l10n_latam_document_number \
                     or not move.company_id.vat \
-                    or not move.l10n_latam_document_type_id \
-                    or not move.l10n_ec_edi_issuing_type:
-                move.l10n_ec_move_access_key = "0000000000000000000000000000000000000000000000000"
-                move.l10n_ec_withholding_access_key = "0000000000000000000000000000000000000000000000000"
+                    or not move.l10n_latam_document_type_id:
+
+                m = []
+                if not move.l10n_latam_document_number:
+                    m.append(_("Latam Document Number not found"))
+
+                if not move.company_id.vat:
+                    m.append(_("VAT not found"))
+
+                if not move.l10n_latam_document_type_id:
+                    m.append(_("Latam Document Type not found"))
+
+                res.append((move.id, False, ", ".join(m)))
                 continue
+
+            edi_env = self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi.environment_type')
+
+            if not edi_env:
+                raise UserError(_("Please configure environment type before issue electronic documents"))
+
+            environment = [x for x in edi_env][0] or "1"
+            numeric_code = self.env['l10nec.edi.document'].sudo().compute_numeric_code()
+
+            if move.move_type == "out_invoice":
+                voucher_type = "01"
 
             ak = "{issuing_date}{voucher_type}{identifier}{environment}{sequence}{numeric_code}{issuing_type}".format(
                 issuing_date=move.date.strftime("%d%m%Y"),
-                voucher_type=move.l10n_latam_document_type_id.l10n_ec_edi_code,
+                voucher_type=voucher_type,
                 identifier=move.company_id.vat,
-                environment=move.l10n_ec_edi_environment_type,
+                environment=environment,
                 sequence=move.l10n_latam_document_number.replace('-', ''),
-                numeric_code=move.l10n_ec_withholding_numeric_code,
-                issuing_type=move.l10n_ec_edi_issuing_type,
+                numeric_code=numeric_code,
+                issuing_type="1",
             )
+            ak = ak + self.compute_check_digit(ak)
+            res.append((move.id, ak))
 
-            move.l10n_ec_move_access_key = "{}{}".format(ak, accesskey.calc_check_digit(ak))
-            move.l10n_ec_withholding_access_key = "0000000000000000000000000000000000000000000000000"
+        return res
+
+    def _post(self, soft=True):
+        # OVERRIDE
+        # Set the electronic document to be posted and post immediately for synchronous formats.
+        posted = super()._post(soft=soft)
+        _logger.info("Compute access key")
+        aks = self._compute_l10n_ec_move_ak()
+
+        for ak in aks:
+            this = self.browse(ak[0])
+            xml_content = "<?xml version='1.0' encoding='UTF-8'?>" + str(this._l10n_ec_export_invoice_as_xml(ak))
+            _logger.info("XML Content\n{}".format(xml_content))
+            edi_values = {
+                'name': ak[1],
+                'xml_content': xml_content,
+                'model': 'account.move',
+                'res_id': ak[0]
+            }
+
+            document_id = self.env['l10nec.edi.document'].create(edi_values)
+
+            _logger.info("Document {}".format(document_id))
+
+        return posted
+
     def invoice_generate_xml(self):
         self.ensure_one()
         report_name = "{}.xml".format(self.l10n_ec_move_access_key)
@@ -136,16 +183,12 @@ class AccountMove(models.Model):
                 ))
             move.l10n_ec_edi_amount_by_group = amount_by_group
 
-
-    def _export_invoice_as_xml(self):
-        template_values = self._prepare_export_edi_values()
-        content = self.env.ref('l10n_ec_edi.factura')._render(template_values)
+    def _l10n_ec_export_invoice_as_xml(self, ak):
+        template_values = self._prepare_export_edi_values(ak)
+        content = self.env['ir.qweb']._render('l10n_ec_edi.factura', template_values)
         return content
 
-
-
-
-    def _prepare_export_edi_values(self):
+    def _prepare_export_edi_values(self, ak):
         self.ensure_one()
 
         def get_partner_type(partner):
@@ -160,11 +203,18 @@ class AccountMove(models.Model):
 
         return {
             "record": self,
+            "access_key": ak[1],
             "document_code": document_code,
             "partner_type": get_partner_type(self.partner_id),
             "environment": self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi.environment_type'),
             "issuing_type": self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi.issuing_type'),
         }
+
+    def action_view_edi_documents(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("l10n_ec_edi.l10n_ec_edi_document")
+        action['domain'] = [('res_id', '=', self.id), ('model', '=', 'account.move')]
+        return action
+
 
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
@@ -178,7 +228,6 @@ class AccountMoveLine(models.Model):
     def _l10n_ec_compute_taxes(self):
         """Returns a list with tax computation as Ecuadorian SRI needs"""
 
-        import pdb; pdb.set_trace();
         for line in self:
             taxes = []
             base_imponible = abs(line.amount_currency if line.amount_currency else line.balance)
@@ -193,6 +242,10 @@ class AccountMoveLine(models.Model):
 
             line.l10n_ec_taxes = taxes
 
+
+
+
+
 class EcMoveAdditionalInfo(models.Model):
     _name = 'ec.move.additional.info'
     _description = 'Ec Move Additional Info'
@@ -202,5 +255,5 @@ class EcMoveAdditionalInfo(models.Model):
         'Move')
     key = fields.Char("Key")
     value = fields.Char("Value")
-    
+
 

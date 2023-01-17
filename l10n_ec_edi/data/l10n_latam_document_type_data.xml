@@ -4,7 +4,7 @@
 
     <record id="l10n_ec.ec_dt_18" model="l10n_latam.document.type">
       <field name="l10n_ec_edi_code">01</field>
-      <field name="account_edi_format_id" ref="l10n_ec_edi.l10n_ec_edi_01" />
+      <!-- <field name="account_edi_format_id" ref="l10n_ec_edi.l10n_ec_edi_01" /> -->
     </record>
     <record id="l10n_ec.ec_dt_41" model="l10n_latam.document.type">
       <field name="l10n_ec_edi_code">03</field>

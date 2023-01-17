@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="l10n_ec_edi_document_tree" model="ir.ui.view">
+    <field name="name">l10n.ec.edi.document.tree</field>
+    <field name="model">l10nec.edi.document</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+<record id="l10n_ec_edi_document_form" model="ir.ui.view">
+    <field name="name">l10n.ec.edi.document.form</field>
+    <field name="model">l10nec.edi.document</field>
+    <field name="arch" type="xml">
+        <form string="EC EDI Document">
+            <header>
+            </header>
+            <sheet>
+                <group>
+                    <field name="name"/>
+                </group>
+                <group>
+                    <field name="authorization_date"/>
+                </group>
+                <notebook>
+                    <page name="xml" string="XML">
+                        <field name="xml_content" string="XML Content" widget="ace" options="{'mode': 'xml'}" modifiers="{&quot;required&quot;: true}"/>
+                    </page>
+                </notebook>
+
+            </sheet>
+        </form>
+    </field>
+</record>
+
+
+<record id="l10n_ec_edi_document" model="ir.actions.act_window">
+    <field name="name">EC EDI Docs</field>
+    <field name="res_model">l10nec.edi.document</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+    id="ec_edi_document_menu"
+    name="EC EDI Docs"
+    parent="account.menu_finance"
+    groups="account.group_account_manager"
+    sequence="100">
+    <menuitem
+        id="ec_edi_document_all_menu"
+        groups="account.group_account_manager"
+        name="EC EDI Docs"
+        action="l10n_ec_edi_document"
+        sequence="1"/>
+
+</menuitem>
+
+</odoo>
