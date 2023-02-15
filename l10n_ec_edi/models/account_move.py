@@ -10,6 +10,13 @@ from collections import defaultdict
 
 _logger = logging.getLogger(__name__)
 
+MOVE_DOCUMENT_TYPES = {
+    'out_invoice': "01",
+    'out_refund': "04",
+    'in_invoice': "07",
+    'debit_note': "05",
+}
+
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
@@ -82,12 +89,9 @@ class AccountMove(models.Model):
             environment = [x for x in edi_env][0] or "1"
             numeric_code = self.env['l10nec.edi.document'].sudo().compute_numeric_code()
 
-            if move.move_type == "out_invoice":
-                voucher_type = "01"
-
             ak = "{issuing_date}{voucher_type}{identifier}{environment}{sequence}{numeric_code}{issuing_type}".format(
                 issuing_date=move.date.strftime("%d%m%Y"),
-                voucher_type=voucher_type,
+                voucher_type=MOVE_DOCUMENT_TYPES[move.move_type],
                 identifier=move.company_id.vat,
                 environment=environment,
                 sequence=move.l10n_latam_document_number.replace('-', ''),
@@ -103,23 +107,22 @@ class AccountMove(models.Model):
         # OVERRIDE
         # Set the electronic document to be posted and post immediately for synchronous formats.
         posted = super()._post(soft=soft)
-        _logger.info("Compute access key")
         aks = self._compute_l10n_ec_move_ak()
 
         for ak in aks:
             this = self.browse(ak[0])
             xml_content = "<?xml version='1.0' encoding='UTF-8'?>" + str(this._l10n_ec_export_invoice_as_xml(ak))
-            _logger.info("XML Content\n{}".format(xml_content))
             edi_values = {
+                'state': 'to_send',
                 'name': ak[1],
                 'xml_content': xml_content,
                 'model': 'account.move',
-                'res_id': ak[0]
+                'res_id': ak[0],
+                'company_id': this.company_id.id,
+                'ecu_document_type': MOVE_DOCUMENT_TYPES[self.move_type],
             }
 
             document_id = self.env['l10nec.edi.document'].create(edi_values)
-
-            _logger.info("Document {}".format(document_id))
 
         return posted
 
