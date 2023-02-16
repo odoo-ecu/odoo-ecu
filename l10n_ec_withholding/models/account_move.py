@@ -2,7 +2,7 @@
 # @author marcelomora <java.diablo@gmail.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-import logging, ecedi, json
+import logging, json
 from collections import defaultdict
 from functools import reduce
 from odoo import _, api, fields, models
@@ -95,15 +95,15 @@ class AccountMove(models.Model):
 
         self = self.sorted(lambda m: (m.date, m.ref or '', m.id))
 
-        for move in self:
-            if move.posted_before:
-                continue
-            group = grouped[journal_key(move)][date_key(move)]
-            if not group['records']:
-                # Compute all the values needed to sequence this whole group
-                last_sequence = self[0]._get_last_withholding_sequence()
-                if move.l10n_ec_withholding_type == "out_withholding":
-                    self.l10n_ec_withholding_number = ecedi.sequence.next_sequence(last_sequence)
+        # for move in self:
+        #     if move.posted_before:
+        #         continue
+        #     group = grouped[journal_key(move)][date_key(move)]
+        #     if not group['records']:
+        #         # Compute all the values needed to sequence this whole group
+        #         last_sequence = self[0]._get_last_withholding_sequence()
+        #         if move.l10n_ec_withholding_type == "out_withholding":
+        #             self.l10n_ec_withholding_number = ecedi.sequence.next_sequence(last_sequence)
 
         super(AccountMove, self)._compute_name()
 
@@ -164,7 +164,7 @@ class AccountMove(models.Model):
                         #  taxes.append({
                     if tax.amount_type == 'group':
                         for gtax in tax.children_tax_ids:
-                    
+
                             base_line_taxes.append({
                                 'id': gtax.id,
                                 'type': gtax.tax_group_id.l10n_ec_type,
@@ -287,5 +287,5 @@ class AccountMoveLine(models.Model):
 
 
 
-    
+
 

@@ -9,9 +9,6 @@
     "license": "AGPL-3",
     "application": False,
     "installable": True,
-    "external_dependencies": {
-        "python": ["ecedi"],
-    },
     "depends": [
         "account", "l10n_latam_invoice_document",
     ],
