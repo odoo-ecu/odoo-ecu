@@ -21,15 +21,13 @@ class StockPicking(models.Model):
     l10n_ec_waybill_id = fields.Many2one(
         'ec.waybill',
         'L10N Ec Waybill')
-    
+
     l10n_ec_waybill_warehouse_id = fields.Many2one(
         'stock.warehouse',
         'Waybill Warehouse')
-    
+
     is_l10n_ec_waybill = fields.Boolean("Waybill?")
     l10n_ec_waybill_before = fields.Boolean("Waybill before", default=False)
-    
-    l10n_ec_waybill_access_key = fields.Char("Access Key", readonly=True, copy=False)
 
     transport_start_date = fields.Date("Transport Start Date")
     transport_end_date = fields.Date("Transport End Date")
@@ -47,7 +45,7 @@ class StockPicking(models.Model):
                 picking.l10n_ec_waybill_partner_vat = picking.partner_id.vat
                 picking.l10n_ec_waybill_partner_name = picking.partner_id.name
                 picking.l10n_ec_waybill_partner_street = picking.partner_id.street
-            
+
             else:
                 picking.l10n_ec_waybill_partner_vat = picking.company_id.vat
                 picking.l10n_ec_waybill_partner_name = picking.company_id.name
@@ -67,8 +65,6 @@ class StockPicking(models.Model):
                     picking.l10n_ec_waybill_invoice_number = \
                             invoices[0].l10n_latam_document_number or \
                             invoices[0].l10n_latam_manual_document_number
-                    picking.l10n_ec_waybill_invoice_auth = \
-                            invoices[0].l10n_ec_move_access_key
                     picking.l10n_ec_waybill_invoice_date = \
                             invoices[0].invoice_date
 
@@ -109,11 +105,11 @@ class StockPicking(models.Model):
 
         self.ensure_one()
         sql = """
-              SELECT MAX(l10n_ec_waybill_document_number) 
-              FROM stock_picking WHERE l10n_ec_waybill_warehouse_id = %(warehouse_id)s 
+              SELECT MAX(l10n_ec_waybill_document_number)
+              FROM stock_picking WHERE l10n_ec_waybill_warehouse_id = %(warehouse_id)s
               """
 
-        self.env.cr.execute(sql, {'warehouse_id': self.l10n_ec_waybill_warehouse_id.id or -1 }) 
+        self.env.cr.execute(sql, {'warehouse_id': self.l10n_ec_waybill_warehouse_id.id or -1 })
         seq = (self.env.cr.fetchone() or [None])[0]
         self.l10n_ec_waybill_last_sequence = seq or "/"
 
@@ -133,7 +129,7 @@ class StockPicking(models.Model):
             if waybill.l10n_ec_waybill_last_sequence != "/" and not waybill.l10n_ec_waybill_before:
                 seq_val = waybill.l10n_ec_waybill_last_sequence.split("-")
                 sequence = int(seq_val[-1]) + 1
-                seq_val[-1] = "{:09}".format(sequence) 
+                seq_val[-1] = "{:09}".format(sequence)
                 waybill.l10n_ec_waybill_document_number = "-".join(seq_val)
                 waybill.l10n_ec_waybill_before = True
 
@@ -173,5 +169,5 @@ class StockPicking(models.Model):
 
 
 
-    
+
 

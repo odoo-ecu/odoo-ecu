@@ -130,7 +130,7 @@ class AccountMove(models.Model):
         self.ensure_one()
         report_name = "{}.xml".format(self.l10n_ec_move_access_key)
         description = _("Factura: %s", self.move_type)
-        data = b"<?xml version='1.0' encoding='UTF-8'?>" +  self._export_invoice_as_xml()
+        data = b"<?xml version='1.0' encoding='UTF-8'?>" + self._export_invoice_as_xml()
         return data
 
     @api.depends('line_ids.price_subtotal', 'line_ids.tax_base_amount', 'line_ids.tax_line_id', 'partner_id', 'currency_id')
@@ -244,9 +244,6 @@ class AccountMoveLine(models.Model):
                 })
 
             line.l10n_ec_taxes = taxes
-
-
-
 
 
 class EcMoveAdditionalInfo(models.Model):

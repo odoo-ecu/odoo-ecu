@@ -10,7 +10,7 @@
         <razonSocial t-esc="record.company_id.partner_id.name" />
         <nombreComercial t-esc="record.company_id.partner_id.tradename" />
         <ruc t-esc="record.company_id.vat" />
-        <!-- <claveAcceso t-esc="access_key"></claveAcceso> -->
+        <claveAcceso t-esc="access_key"></claveAcceso>
         <codDoc>06</codDoc>
         <estab t-esc="record.l10n_ec_waybill_document_number[:3]" />
         <ptoEmi t-esc="record.l10n_ec_waybill_document_number[4:7]" />
@@ -21,7 +21,7 @@
       </infoTributaria>
       <infoGuiaRemision>
         <!-- <dirEstablecimiento t-if="record.l10n_ec_waybill_shop_address" t-esc="record.l10n_ec_waybill_shop_address" /> -->
-        <dirPartida t-esc="record.location_id.get_warehouse().partner_id.street" />
+        <dirPartida t-esc="record.l10n_ec_waybill_warehouse_id.partner_id.street" />
         <razonSocialTransportista t-esc="record.driver_id.name" />
         <tipoIdentificacionTransportista t-esc="driver_partner_type" />
         <rucTransportista t-esc="record.driver_id.vat" />
@@ -75,6 +75,6 @@
         </t>
       </infoAdicional>
     </guiaRemision>
-      
+
   </template>
 </odoo>

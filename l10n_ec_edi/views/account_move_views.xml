@@ -18,7 +18,7 @@
                         <field name="l10n_ec_edi_amount_by_group"/>
                     </group> -->
                     <group string="Additional Info">
-                        <field name="l10n_ec_add_info_ids" nolabel="1" >
+                        <field name="l10n_ec_add_info_ids" nolabel="1" colspan="2" >
                             <tree editable="bottom">
                                 <field name="key"/>
                                 <field name="value"/>
@@ -29,11 +29,11 @@
             </page>
         </xpath>
         <div class="oe_button_box" position="inside">
-            <button type="object" class="oe_stat_button" name="action_view_edi_documents" icon="fa-plus" >
-                <!-- <div class="o_field_widget o_stat_info">
-                    <span class="o_stat_value"><field name="debit_note_count"/></span>
-                    <span class="o_stat_text">Debit Notes</span>
-                </div> -->
+            <button type="object" class="oe_stat_button" name="action_view_edi_documents" icon="fa-book" >
+                <div class="o_field_widget o_stat_info">
+                    <!-- <span class="o_stat_value"><field name="debit_note_count"/></span> -->
+                    <span class="o_stat_text">Electronic<br />Documents</span>
+                </div>
             </button>
         </div>
     </field>

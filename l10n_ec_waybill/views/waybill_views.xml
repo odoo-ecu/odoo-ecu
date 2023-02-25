@@ -25,6 +25,14 @@
                   <field name="state" widget="statusbar" statusbar_visible="draft,waiting,done,cancel,in-progress" />
               </header>
               <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button type="object" class="oe_stat_button" name="action_view_edi_documents" icon="fa-book" >
+                        <div class="o_field_widget o_stat_info">
+                            <!-- <span class="o_stat_value"><field name="debit_note_count"/></span> -->
+                            <span class="o_stat_text">Electronic<br />Documents</span>
+                        </div>
+                    </button>
+                </div>
                   <div class="oe_title">
                       <h1>
                           <field name="name" attrs="{'invisible': [('l10n_ec_waybill_document_number', '=', False)]}"/>
@@ -37,7 +45,6 @@
                       <field name="driver_id"/>
                       <field name="user_id"/>
                       <field name="location_id"/>
-                      <field name="l10n_ec_waybill_access_key" attrs="{'invisible': [('l10n_ec_waybill_access_key', '=', '')]}"/>
                       <field name="l10n_ec_waybill_document_number" attrs="{'invisible': ['|', ('l10n_ec_waybill_last_sequence', '!=', '/'), ('location_id', '=', False)]}"/>
                       <field name="l10n_ec_waybill_last_sequence" invisible="1"/>
 
@@ -54,7 +61,7 @@
                       </page>
                       <page string="EDI Ecuador">
                           <group string="Additional Info">
-                            <field name="l10n_ec_add_info_ids" nolabel="1" >
+                            <field name="l10n_ec_add_info_ids" nolabel="1" colspan="2">
                                 <tree editable="bottom">
                                     <field name="key"/>
                                     <field name="value"/>
