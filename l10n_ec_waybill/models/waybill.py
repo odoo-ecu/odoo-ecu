@@ -23,8 +23,8 @@ class EcWaybill(models.Model):
     l10n_ec_waybill_document_number = fields.Char("Document Number", copy=False)
     l10n_ec_waybill_last_sequence = fields.Char("Waybill Last Sequence", compute="_compute_l10n_ec_waybill_l_seq")
     l10n_ec_waybill_before = fields.Boolean("Waybill before", default=False, copy=False)
-    date = fields.Datetime('Transport Date',default = datetime.now(), copy=False)
-    date_due = fields.Datetime('Transport Due Date',default = datetime.now(), copy=False)
+    date = fields.Datetime('Transport Date',default = datetime.now(), copy=False, required=True)
+    date_due = fields.Datetime('Transport Due Date',default = datetime.now(), copy=False, required=True)
     note = fields.Text('Note', copy=False)
     active = fields.Boolean('Active', default=True)
     picking_ids = fields.One2many(
@@ -34,10 +34,10 @@ class EcWaybill(models.Model):
     #  customer_id = fields.Many2one('res.partner', 'Customer')
     #  contact_person = fields.Char('Contact Name')
     #  no_of_parcels = fields.Integer('No Of Parcels')
-    vehicle_id =  fields.Many2one('fleet.vehicle', 'Transport Vehicle')
+    vehicle_id =  fields.Many2one('fleet.vehicle', 'Transport Vehicle', required=True)
     #  sale_order = fields.Char(string='Sale Order')
     #  tag_ids = fields.Many2one('fleet.vehicle', copy=False, string='Transport Vehicle')
-    driver_id = fields.Many2one('res.partner', 'Vehicle Driver')
+    driver_id = fields.Many2one('res.partner', 'Vehicle Driver', required=True)
     state =  fields.Selection([
         ('draft', 'Start'),
         ('waiting','Waiting'),
@@ -133,6 +133,9 @@ class EcWaybill(models.Model):
             if waybill.l10n_ec_waybill_last_sequence == "/" and \
                     not re.match(DOC_NUM_FORMAT, waybill.l10n_ec_waybill_document_number):
                 raise ValidationError(_("Please setup a new sequence"))
+
+            if not waybill.picking_ids:
+                raise ValidationError(_("Can't validate waybill without picking"))
 
             waybill._assign_l10n_ec_waybill_document_number()
             waybill.name = "GR {}".format(waybill.l10n_ec_waybill_document_number)
