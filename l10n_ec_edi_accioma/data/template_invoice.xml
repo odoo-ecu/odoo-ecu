@@ -60,6 +60,7 @@
         <t t-call="l10n_ec_edi.facturaTotalConImpuestos">
           <t t-set="taxes" t-value="record.l10n_ec_edi_amount_by_group"></t>
         </t>
+        <!-- <propina>0.00</propina> -->
         <propina></propina>
         <importeTotal t-esc="'{:.2f}'.format(record.amount_total)"></importeTotal>
         <moneda>DOLAR</moneda>
