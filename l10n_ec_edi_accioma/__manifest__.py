@@ -18,8 +18,8 @@
     },
     "depends": [
         "account",
-        "l10n_ec_withholding",
-        "l10n_ec_clearance",
+        "l10n_ec_withholding_accioma",
+        "l10n_ec_clearance_accioma",
         "partner_contact_tradename",
     ],
     "data": [

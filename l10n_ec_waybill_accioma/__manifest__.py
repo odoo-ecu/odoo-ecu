@@ -16,7 +16,7 @@
         "sale_stock",
         "l10n_latam_invoice_document",
         "fleet",
-        "l10n_ec_edi",
+        "l10n_ec_edi_accioma",
     ],
     "data": [
         "security/ir.model.access.csv",
