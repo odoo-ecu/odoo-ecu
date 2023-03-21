@@ -81,7 +81,7 @@ class AccountMove(models.Model):
                 res.append((move.id, False, ", ".join(m)))
                 continue
 
-            edi_env = self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi.environment_type')
+            edi_env = self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi_accioma.environment_type')
 
             if not edi_env:
                 raise UserError(_("Please configure environment type before issue electronic documents"))
@@ -98,6 +98,7 @@ class AccountMove(models.Model):
                 numeric_code=numeric_code,
                 issuing_type="1",
             )
+            _logger.info(ak)
             ak = ak + self.compute_check_digit(ak)
             res.append((move.id, ak))
 
@@ -107,11 +108,20 @@ class AccountMove(models.Model):
         # OVERRIDE
         # Set the electronic document to be posted and post immediately for synchronous formats.
         posted = super()._post(soft=soft)
+
+        if self.journal_id.company_id.account_fiscal_country_id.code != 'EC' or \
+                not self.journal_id.l10n_latam_use_documents:
+            return posted
+
         aks = self._compute_l10n_ec_move_ak()
 
         for ak in aks:
             this = self.browse(ak[0])
-            xml_content = "<?xml version='1.0' encoding='UTF-8'?>" + str(this._l10n_ec_export_invoice_as_xml(ak))
+            if self.type == 'out_invoice':
+                xml_content = "<?xml version='1.0' encoding='UTF-8'?>" + str(this._l10n_ec_export_invoice_as_xml(ak))
+            else:
+                continue
+
             edi_values = {
                 'state': 'to_send',
                 'name': ak[1],
@@ -188,8 +198,28 @@ class AccountMove(models.Model):
 
     def _l10n_ec_export_invoice_as_xml(self, ak):
         template_values = self._prepare_export_edi_values(ak)
-        content = self.env['ir.qweb']._render('l10n_ec_edi.factura', template_values)
+        content = self.env['ir.qweb']._render('l10n_ec_edi_accioma.factura', template_values)
         return content
+
+
+    def _l10n_ec_get_payment_data(self):
+        """ Get payment data for the XML.  """
+        payment_data = []
+        pay_term_line_ids = self.line_ids.filtered(
+            lambda line: line.account_id.account_type in ('asset_receivable', 'liability_payable')
+        )
+        for line in pay_term_line_ids:
+            payment_vals = {
+                'payment_code': self.l10n_ec_sri_payment_id.code or '20',
+                'payment_total': abs(line.balance),
+            }
+            if self.invoice_payment_term_id and line.date_maturity:
+                payment_vals.update({
+                    'payment_term': max(((line.date_maturity - self.invoice_date).days), 0),
+                    'time_unit': "dias",
+                })
+            payment_data.append(payment_vals)
+        return payment_data
 
     def _prepare_export_edi_values(self, ak):
         self.ensure_one()
@@ -204,17 +234,20 @@ class AccountMove(models.Model):
 
         document_code = self.l10n_latam_document_type_id.l10n_ec_edi_code
 
+        payment_data = self._l10n_ec_get_payment_data()
+        _logger.info(f"Payment data {payment_data}")
         return {
             "record": self,
             "access_key": ak[1],
             "document_code": document_code,
             "partner_type": get_partner_type(self.partner_id),
-            "environment": self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi.environment_type'),
-            "issuing_type": self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi.issuing_type'),
+            "environment": self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi_accioma.environment_type'),
+            "issuing_type": self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi_accioma.issuing_type'),
+            "payment_data": self._l10n_ec_get_payment_data(),
         }
 
     def action_view_edi_documents(self):
-        action = self.env["ir.actions.actions"]._for_xml_id("l10n_ec_edi.l10n_ec_edi_document")
+        action = self.env["ir.actions.actions"]._for_xml_id("l10n_ec_edi_accioma.l10n_ec_edi_document")
         action['domain'] = [('res_id', '=', self.id), ('model', '=', 'account.move')]
         return action
 
