@@ -6,7 +6,7 @@
     <field name="inherit_id" ref="base.res_config_settings_view_form" />
     <field name="arch" type="xml">
       <xpath expr="//div[hasclass('settings')]" position="inside" >
-          <div class="app_settings_block" string="Electronic Document Interchange Ecuador" data-string="EDI Ecuador" data-key="edi_ecuador" groups="account.group_account_manager">
+          <div class="app_settings_block" string="Electronic Document Interchange Ecuador" data-string="EDI Ecuador" data-key="l10n_ec_edi_base_accioma" groups="account.group_account_manager">
               <div class="row mt16 o_settings_container" name="l10n_ec_edi_settings_container" groups="account.group_account_manager">
                   <h2>EDI Ecuador</h2>
                   <div class="col-12 col-lg-16 o_setting_box"></div>
@@ -22,12 +22,12 @@
                             </div>
                         </div>
                   </div>
-              
+
 </div>
-          
+
           </div>
       </xpath>
-        
+
     </field>
 </record>
 

@@ -8,6 +8,7 @@ class L10nEcEdiDocument(models.Model):
     _name = 'l10nec.edi.document'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Ecuadorian Edi Document'
+    _order = 'create_date desc, name desc, id desc'
 
     # == Stored fields ==
     name = fields.Char("Name")
@@ -55,3 +56,29 @@ class L10nEcEdiDocument(models.Model):
     def action_send_document(self):
         """Blueprint action to send invoice to SRI. It is meant to be inherited"""
         raise NotImplementedError("Action not implemented yet")
+
+    def action_check_document_status(self):
+        """Blueprint action to check document status from SRI. It is meant to be inherited"""
+        raise NotImplementedError("Action not implemented yet")
+
+    def _cron_process_documents(self, job_count):
+        """Send to SRI all documents marked as to send"""
+        docs_count = self.search_count([('state', '=', 'to_send')])
+        docs = self.search([('state', '=', 'to_send')], limit=job_count)
+        for doc in docs:
+            doc.action_send_document()
+
+        if docs_count > job_count:
+            self.env.ref('l10n_ec_edi_base_accioma.ir_cron_edi_accioma_process')._trigger()
+
+
+    def _cron_check_documents_status(self, job_count):
+        """Check document status"""
+        # Retrieve documents to send
+        docs_count = self.search_count([('state', '=', 'sent')])
+        docs = self.search([('state', '=', 'to_send')], limit=job_count)
+        for doc in docs:
+            doc.action_check_document_status()
+
+        if docs_count > job_count:
+            self.env.ref('l10n_ec_edi_base_accioma.ir_cron_edi_accioma_check_status')._trigger()

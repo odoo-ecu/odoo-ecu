@@ -6,9 +6,10 @@
 import logging
 import re
 from odoo import _, api, fields, models
+from odoo.tools import pytz
 from odoo.exceptions import ValidationError
 from datetime import datetime,date,timedelta
-from odoo.addons.l10n_ec_edi.tools import formats
+from odoo.addons.l10n_ec_edi_base_accioma.tools import formats
 
 _logger = logging.getLogger(__name__)
 
@@ -43,7 +44,7 @@ class EcWaybill(models.Model):
         ('waiting','Waiting'),
         ('in-progress', 'In-Progress'),
         ('done','Done'),
-        ('cancel','Cancel'),
+        ('cancelled','Cancelled'),
         ],
         default =  'draft',
         copy = False)
@@ -111,26 +112,34 @@ class EcWaybill(models.Model):
         """Compute access key for electronic voucher"""
         self.ensure_one()
 
-        issuing_date = self.date
+        user = self.env['res.users'].browse([2])
+        tz = pytz.timezone(user.tz) or pytz.utc
+
+        issuing_date = pytz.utc.localize(self.date).astimezone(tz)
         voucher_type = 'waybill' # Waybill
         identifier = self.company_id.vat
         environment = self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi.environment_type')
         document_number = self.l10n_ec_waybill_document_number
 
-        return formats.compute_access_key(
-            issuing_date,
-            voucher_type,
-            identifier,
-            environment,
-            document_number
-        )
+        try:
+            return formats.compute_access_key(
+                issuing_date,
+                voucher_type,
+                identifier,
+                environment,
+                document_number
+            )
+        except Exception as e:
+            raise ValidationError("Error validating access keu: {}".format(e))
 
     def action_validate(self):
         """Overrides action done so it adds the waybill number assignment
         functionality"""
 
         for waybill in self:
+
             if waybill.l10n_ec_waybill_last_sequence == "/" and \
+                    not waybill.l10n_ec_waybill_document_number and \
                     not re.match(DOC_NUM_FORMAT, waybill.l10n_ec_waybill_document_number):
                 raise ValidationError(_("Please setup a new sequence"))
 
@@ -159,6 +168,18 @@ class EcWaybill(models.Model):
 
             waybill.state = 'waiting'
 
+    def action_cancel(self):
+        for waybill in self:
+
+            for edi_document in self.env['l10nec.edi.document'].search(
+                    [('res_id', '=', self.id)]):
+                if edi_document.state in ('sent', 'authorized'):
+                    raise ValidationError(_("Any sent or authorized document can't be cancelled"))
+                edi_document.state = 'cancelled'
+
+            waybill.state = 'cancelled'
+
+
     def _prepare_export_edi_values(self, access_key):
         self.ensure_one()
 
@@ -184,11 +205,11 @@ class EcWaybill(models.Model):
 
     def _l10n_ec_export_waybill_as_xml(self, access_key):
         template_values = self._prepare_export_edi_values(access_key)
-        content = self.env['ir.qweb']._render('l10n_ec_waybill.guia_remision', template_values)
+        content = self.env['ir.qweb']._render('l10n_ec_waybill_accioma.guia_remision', template_values)
         return content
 
     def action_view_edi_documents(self):
-        action = self.env["ir.actions.actions"]._for_xml_id("l10n_ec_edi.l10n_ec_edi_document")
+        action = self.env["ir.actions.actions"]._for_xml_id("l10n_ec_edi_base_accioma.l10n_ec_edi_document")
         action['domain'] = [('res_id', '=', self.id), ('model', '=', 'ec.waybill')]
         return action
 
@@ -212,7 +233,8 @@ class EcWaybillPicking(models.Model):
     picking_id = fields.Many2one(
         'stock.picking',
         'Picking',
-        required = True
+        domain=[('state', 'in', ('confirmed', 'assigned', 'done'))],
+        required=True
     )
 
     l10n_ec_waybill_invoice_number = fields.Char("Invoice Number", related="picking_id.l10n_ec_waybill_invoice_number")

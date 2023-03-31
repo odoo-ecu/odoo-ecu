@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from random import randint
+from datetime import datetime
 
 MOVE_DOCUMENT_TYPES = {
     'out_invoice': "01",
@@ -28,6 +29,31 @@ def compute_numeric_code():
     return "".join([str(randint(0, 9)) for i in range(8)])
 
 
+def validate_ak_components(
+        issuing_date,
+        move_type,
+        identifier,
+        environment,
+        l10n_latam_document_number):
+
+    if not isinstance(issuing_date, datetime):
+        raise Exception("Issuing date must be set.")
+
+    if not isinstance(move_type, str):
+        raise Exception("Move type must be set.")
+
+    if not isinstance(identifier, str):
+        raise Exception("Company VAT number must be set.")
+
+    if not isinstance(environment, str):
+        raise Exception("Environment must be set.")
+
+    if not isinstance(l10n_latam_document_number, str):
+        raise Exception("Document number must be set.")
+
+    return True
+
+
 def compute_access_key(
         issuing_date,
         move_type,
@@ -45,6 +71,14 @@ def compute_access_key(
         numeric_code=compute_numeric_code(),
         issuing_type="1",
     )
+
+    valid_access_key = validate_ak_components(
+        issuing_date,
+        move_type,
+        identifier,
+        environment,
+        l10n_latam_document_number)
+
 
     ak = ak + compute_check_digit(ak)
 

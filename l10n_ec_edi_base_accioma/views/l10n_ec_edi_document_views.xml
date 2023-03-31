@@ -5,7 +5,7 @@
     <field name="name">l10n.ec.edi.document.tree</field>
     <field name="model">l10nec.edi.document</field>
     <field name="arch" type="xml">
-        <tree>
+        <tree create="false" edit="true">
             <field name="ecu_document_type"/>
             <field name="name"/>
             <field name="state"/>
@@ -18,7 +18,8 @@
     <field name="arch" type="xml">
         <form string="EC EDI Document">
             <header>
-                <button name="action_send_document" type="object" string="Send Document"/>
+                <button name="action_send_document" type="object" string="Send Document" attrs="{'invisible':[('state', '!=', 'to_send')]}"/>
+                <button name="action_check_document_status" type="object" string="Check Status" attrs="{'invisible':[('state', '!=', 'sent')]}"/>
                 <field name="state" widget="statusbar"/>
             </header>
             <sheet>
@@ -53,13 +54,11 @@
 
 <menuitem
     id="ec_edi_document_menu"
+    web_icon="l10n_ec_edi_base_accioma,static/description/icon.png"
     name="EC EDI Docs"
-    parent="account.menu_finance"
-    groups="account.group_account_manager"
     sequence="100">
     <menuitem
         id="ec_edi_document_all_menu"
-        groups="account.group_account_manager"
         name="EC EDI Docs"
         action="l10n_ec_edi_document"
         sequence="1"/>

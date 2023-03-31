@@ -21,7 +21,8 @@
       <field name="arch" type="xml">
           <form string="Waybill">
               <header>
-                  <button string="Validate" states="draft,waiting" type="object" name="action_validate" />
+                  <button string="Validate" states="draft" type="object" name="action_validate" />
+                  <button string="Cancel" states="waiting,in-progress" type="object" name="action_cancel" />
                   <field name="state" widget="statusbar" statusbar_visible="draft,waiting,done,cancel,in-progress" />
               </header>
               <sheet>
