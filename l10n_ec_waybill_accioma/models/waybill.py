@@ -183,18 +183,10 @@ class EcWaybill(models.Model):
     def _prepare_export_edi_values(self, access_key):
         self.ensure_one()
 
-        def get_partner_type(partner):
-            if partner.vat == '9999999999999':
-                return '07'
-            elif partner.country_id.code != 'EC':
-                return '08'
-            else:
-                return partner.l10n_latam_identification_type_id.l10n_ec_id_edi_code
-
         return {
             "record": self,
             "access_key": access_key,
-            "driver_partner_type": get_partner_type(self.driver_id),
+            "driver_partner_type": self.driver_id._get_l10n_ec_edi_code().value,
             "environment": self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi.environment_type'),
             "issuing_type": self.env['ir.config_parameter'].sudo().get_param('l10n_ec_edi.issuing_type'),
         }
