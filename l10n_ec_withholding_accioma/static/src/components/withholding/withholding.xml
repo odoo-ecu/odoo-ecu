@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+
+    <t t-name="l10n_ec_withholding_accioma.WithholdingField" owl="1">
+        <table class="table table-bordered" style="width:800px">
+            <thead>
+                <tr>
+                    <th>Tax Code</th>
+                    <th>Description</th>
+                    <th>Amount Untaxed which Withholding is based</th>
+                    <th>Tax</th>
+                    <th>Tax Rate</th>
+                    <th>Withholding Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="withholdings" t-as="withholding" t-key="withholding['codigo_retencion']" >
+                    <tr>
+                        <td><span t-out="withholding['codigo_retencion']" /></td>
+                        <td><span t-out="withholding['name']" /></td>
+                        <td><span t-out="withholding['base_imponible']" /></td>
+                        <t t-if="withholding['type'] == 'withhold_income_tax'" >
+                            <td>RENTA</td>
+                        </t>
+                        <td><span t-out="withholding['porcentaje_retener']" /></td>
+                        <td><span t-out="withholding['valor_retenido']" /></td>
+                    </tr>
+
+                </t>
+            </tbody>
+
+        </table>
+    </t>
+
+</templates>

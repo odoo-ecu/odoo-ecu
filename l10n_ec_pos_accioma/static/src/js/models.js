@@ -1,4 +1,4 @@
-odoo.define('l10n_ec_pos.document_sequence', function(require){
+odoo.define('l10n_ec_pos_accioma.document_sequence', function(require){
   "use strict";
 
   var models = require('point_of_sale.models');

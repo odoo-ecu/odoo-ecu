@@ -22,6 +22,13 @@
     'data': [
         'views/withholding_views.xml',
         'views/account_tax_views.xml',
+        'views/account_journal_views.xml',
         'data/template_withholding.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'l10n_ec_withholding_accioma/static/src/js/withholding.js',
+            'l10n_ec_withholding_accioma/static/src/components/**/*',
+        ]
+    }
 }

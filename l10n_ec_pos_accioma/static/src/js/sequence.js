@@ -1,4 +1,4 @@
-odoo.define('l10n_ec_pos.l10n_ec_pos_sequence', function(require, factory){
+odoo.define('l10n_ec_pos_accioma.l10n_ec_pos_sequence', function(require, factory){
   'use strict'
 
   var models = require('point_of_sale.models')
@@ -14,7 +14,7 @@ odoo.define('l10n_ec_pos.l10n_ec_pos_sequence', function(require, factory){
     },
     set_invoice_highest_sequence: function(sequence){
       this.invoice_highest_sequence = sequence
-    
+
     }
   })
 })

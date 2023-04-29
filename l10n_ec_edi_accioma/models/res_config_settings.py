@@ -11,14 +11,14 @@ class ResConfigSettings(models.TransientModel):
         ('1', 'Normal')
         ], "Issuing Type",
         default='1',
-        config_parameter='l10n_ec_edi.issuing_type'
+        config_parameter='l10n_ec_edi_accioma.issuing_type'
         )
 
     l10n_ec_edi_environment_type = fields.Selection([
         ('1', 'Testing'),
         ('2', 'Production'),
         ], "Environment Type", default='1',
-        config_parameter='l10n_ec_edi.environment_type'
+        config_parameter='l10n_ec_edi_accioma.environment_type'
         )
 
 

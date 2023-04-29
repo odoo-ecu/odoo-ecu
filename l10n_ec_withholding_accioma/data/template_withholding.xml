@@ -19,11 +19,56 @@
     </infoTributaria>
   </template>
 
+  <template id="withhold_details_info_template">
+    <docsSustento>
+      <docSustento t-foreach="taxsupport_lines" t-as="taxsupport">
+          <codSustento t-out="taxsupport['invoice_taxsupport_code']"/>
+          <codDocSustento t-out="taxsupport['invoice_document_type_code']"/>
+          <numDocSustento t-out="taxsupport['invoice_document_number']"/>
+          <fechaEmisionDocSustento t-out="taxsupport['invoice_document_date']"/>
+          <t t-set="identification" t-value="taxsupport['identification']"/>
+          <pagoLocExt t-out="identification"/>
+          <tipoRegi t-if="identification == '02'" t-out="taxsupport['regime_type']"/>
+          <paisEfecPago t-if="identification == '02'" t-out="taxsupport['paying_country']"/>
+          <aplicConvDobTrib t-if="identification == '02'" t-out="taxsupport['double_taxation']"/>
+          <pagExtSujRetNorLeg t-if="identification == '02' and taxsupport['double_taxation'] == 'NO'" t-out="taxsupport['subject_withhold']"/>
+          <pagoRegFis t-if="identification == '02'" t-out="taxsupport['fiscal_payment']"/>
+          <totalSinImpuestos t-out="format_num_2(taxsupport['invoice_amount_untaxed'])"/>
+          <importeTotal t-out="format_num_2(taxsupport['invoice_amount_total'])"/>
+          <impuestosDocSustento>
+              <t t-set="invoice_taxes" t-value="taxsupport['invoice_taxes']"/>
+              <impuestoDocSustento t-foreach="invoice_taxes" t-as="invoice_tax">
+                  <codImpuestoDocSustento t-out="invoice_tax['code']"/>
+                  <codigoPorcentaje t-out="invoice_tax['code_percentage']"/>
+                  <baseImponible t-out="format_num_2(invoice_tax['base_amount'])"/>
+                  <tarifa t-out="format_num_2(invoice_tax['rate'])"/>
+                  <valorImpuesto t-out="format_num_2(invoice_tax['tax_amount'])"/>
+              </impuestoDocSustento>
+          </impuestosDocSustento>
+          <retenciones>
+              <retencion t-as="withhold_line" t-foreach="taxsupport['withhold_lines']">
+                  <codigo t-out="withhold_line['tax_type_code']"/>
+                  <codigoRetencion t-out="withhold_line['tax_code']"/>
+                  <baseImponible t-out="format_num_2(withhold_line['tax_base_amount'])"/>
+                  <porcentajeRetener t-out="format_num_2(withhold_line['tax_rate'])"/>
+                  <valorRetenido t-out="format_num_2(withhold_line['tax_amount'])"/>
+              </retencion>
+          </retenciones>
+          <pagos>
+              <pago>
+                  <formaPago t-out="taxsupport['invoice_payments'][0]['payment_code']"/>
+                  <total t-out="format_num_2(taxsupport['invoice_payments'][0]['payment_amount'])"/>
+              </pago>
+          </pagos>
+      </docSustento>
+    </docsSustento>
+  </template>
+
   <template id="retencion">
-    <comprobanteRetencion id="comprobante" version="1.0.0">
+    <comprobanteRetencion id="comprobante" version="2.0.0">
       <t t-call="l10n_ec_withholding.infoTributaria">
         <t t-set="company" t-value="record.company_id"></t>
-        <!-- <t t-set="access_key" t-value="record.l10n_ec_move_access_key"></t> -->
+        <t t-set="access_key" t-value="record.l10n_ec_move_access_key"></t>
         <t t-set="document_code" t-value="document_code"></t>
         <t t-set="document_number" t-value="record.l10n_ec_withholding_number" ></t>
       </t>
@@ -60,4 +105,3 @@
   </template>
 
 </odoo>
-

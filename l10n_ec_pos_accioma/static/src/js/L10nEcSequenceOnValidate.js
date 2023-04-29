@@ -1,4 +1,4 @@
-odoo.define('l10n_ec_pos.L10nEcSequenceOnValidate', function(require){
+odoo.define('l10n_ec_pos_accioma.L10nEcSequenceOnValidate', function(require){
   'use strict';
 
   const PaymentScreen = require('point_of_sale.PaymentScreen')

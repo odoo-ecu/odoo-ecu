@@ -5,7 +5,7 @@
     <field name="name">Factura</field>
     <field name="code">01</field>
     <!-- <field name="l10n_latam_document_type_id" ref="l10n_ec.ec_04"/> -->
-    <field name="xml_template_name">l10n_ec_edi.factura</field>
+    <field name="xml_template_name">l10n_ec_edi_accioma.factura</field>
   </record>
 
 </odoo>

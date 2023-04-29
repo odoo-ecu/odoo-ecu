@@ -1,17 +1,20 @@
-odoo.define('l10n_ec.withholding', function (require) {
-  "use strict"
+/** @odoo-module **/
+const {xml, Component} = owl;
 
-var AbstractField = require('web.AbstractField');
-var core = require('web.core');
-var field_registry = require('web.field_registry');
-var field_utils = require('web.field_utils');
+import { standardFieldProps } from '@web/views/fields/standard_field_props'
 
-var QWeb = core.qweb;
-var _t = core._t;
+import {registry} from '@web/core/registry'
 
-var ShowWithholdingLineWidget = AbstractField.extend({
-});
+export class CodeField extends Component {
+    setup() {
 
+        super.setup();
+    }
 
-field_registry.add('withholding', ShowWithholdingLineWidget);
+}
+CodeField.template = xml`<pre t-out="props.value" class="bg-primary text-white p-3 rounded" />`;
+CodeField.props = standardFieldProps;
+
+registry.category("fields").add("code", CodeField)
+
 

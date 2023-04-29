@@ -9,8 +9,96 @@ from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
+L10N_EC_TAXES_SUPPORT = [
+    ('01', '01 Tax credit for VAT declaration (services and goods other than inventories and fixed assets)'),
+    ('02', '02 Cost or Expense for IR declaration (services and goods other than inventories and fixed assets)'),
+    ('03', '03 Fixed Asset - Tax Credit for VAT return'),
+    ('04', '04 Fixed Asset - Cost or Expense for IR declaration'),
+    ('05', '05 Settlement of travel, lodging and food expenses IR expenses (on behalf of employees and not of the company)'),
+    ('06', '06 Inventory - Tax Credit for VAT return'),
+    ('07', '07 Inventory - Cost or Expense for IR declaration'),
+    ('08', '08 Amount paid to request Expense Reimbursement (intermediary)'),
+    ('09', '09 Claims Reimbursement'),
+    ('10', '10 Distribution of Dividends, Benefits or Profits'),
+    ('15', '15 Payments made for own and third-party consumption of digital services'),
+    ('00', '00 Special cases whose support does not apply to the above options')
+]
+
+L10N_EC_TAXES_SUPPORT_LATAM_DOCUMENT_MAPPING = [
+    ('01', ('01', '02', '03', '04', '05', '06', '07', '08', '09', '14', '15', '00')),
+    ('02', ('02', '04', '05', '07', '08', '14', '15', '00')),
+    ('03', ('01', '02', '03', '04', '05', '06', '07', '08', '14', '15')),
+    ('04', ('01', '02', '03', '04', '05', '06', '07', '08', '09', '14', '15', '00')),
+
+]
+
+L10N_EC_VAT_RATES = {
+    2: 12.0,
+    3: 14.0,
+    0: 0.0,
+    6: 0.0,
+    7: 0.0,
+    8: 8.0,
+}
+L10N_EC_VAT_SUBTAXES = {
+    'vat08': 8,
+    'vat12': 2,
+    'vat14': 3,
+    'zero_vat': 0,
+    'not_charged_vat': 6,
+    'exempt_vat': 7,
+}  # NOTE: non-IVA cases such as ICE and IRBPNR not supported
+L10N_EC_VAT_TAX_NOT_ZERO_GROUPS = (
+    'vat08',
+    'vat12',
+    'vat14',
+)
+L10N_EC_VAT_TAX_ZERO_GROUPS = (
+    'zero_vat',
+    'not_charged_vat',
+    'exempt_vat',
+)
+L10N_EC_VAT_TAX_GROUPS = tuple(L10N_EC_VAT_TAX_NOT_ZERO_GROUPS + L10N_EC_VAT_TAX_ZERO_GROUPS)  # all VAT taxes
+L10N_EC_WITHHOLD_CODES = {
+    'withhold_vat_purchase': 2,
+    'withhold_income_purchase': 1,
+}
+L10N_EC_WITHHOLD_VAT_CODES = {
+    0.0: 7,  # 0% vat withhold
+    10.0: 9,  # 10% vat withhold
+    20.0: 10,  # 20% vat withhold
+    30.0: 1,  # 30% vat withhold
+    50.0: 11, # 50% vat withhold
+    70.0: 2,  # 70% vat withhold
+    100.0: 3,  # 100% vat withhold
+}  # NOTE: non-IVA cases such as ICE and IRBPNR not supported
+# Codes from tax report "Form 103", useful for withhold automation:
+L10N_EC_WTH_FOREIGN_GENERAL_REGIME_CODES = ['402', '403', '404', '405', '406', '407', '408', '409', '410', '411', '412', '413', '414', '415', '416', '417', '418', '419', '420', '421', '422', '423']
+L10N_EC_WTH_FOREIGN_TAX_HAVEN_OR_LOWER_TAX_CODES = ['424', '425', '426', '427', '428', '429', '430', '431', '432', '433']
+L10N_EC_WTH_FOREIGN_NOT_SUBJECT_WITHHOLD_CODES = ['412', '423', '433']
+L10N_EC_WTH_FOREIGN_SUBJECT_WITHHOLD_CODES = list(set(L10N_EC_WTH_FOREIGN_GENERAL_REGIME_CODES) - set(L10N_EC_WTH_FOREIGN_NOT_SUBJECT_WITHHOLD_CODES))
+L10N_EC_WTH_FOREIGN_DOUBLE_TAXATION_CODES = ['402', '403', '404', '405', '406', '407', '408', '409', '410', '411', '412']
+L10N_EC_WITHHOLD_FOREIGN_REGIME = [('01', '(01) General Regime'), ('02', '(02) Fiscal Paradise'), ('03', '(03) Preferential Tax Regime')]
+
+
 class AccountMove(models.Model):
     _inherit = 'account.move'
+
+    l10n_ec_withholding_support = fields.Selection(selection=[
+    ('01', '01 Tax credit for VAT declaration (services and goods other than inventories and fixed assets)'),
+    ('02', '02 Cost or Expense for IR declaration (services and goods other than inventories and fixed assets)'),
+    ('03', '03 Fixed Asset - Tax Credit for VAT return'),
+    ('04', '04 Fixed Asset - Cost or Expense for IR declaration'),
+    ('05', '05 Settlement of travel, lodging and food expenses IR expenses (on behalf of employees and not of the company)'),
+    ('06', '06 Inventory - Tax Credit for VAT return'),
+    ('07', '07 Inventory - Cost or Expense for IR declaration'),
+    ('08', '08 Amount paid to request Expense Reimbursement (intermediary)'),
+    ('09', '09 Claims Reimbursement'),
+    ('10', '10 Distribution of Dividends, Benefits or Profits'),
+    ('15', '15 Payments made for own and third-party consumption of digital services'),
+    ('00', '00 Special cases whose support does not apply to the above options')
+]
+, string="Withholding Support")
 
     l10n_ec_withholding_type = fields.Selection([
         ('in_withholding', 'Customer Withholding'),
@@ -22,8 +110,8 @@ class AccountMove(models.Model):
     l10n_ec_withholding_number = fields.Char("Withholding Number")
     l10n_ec_highest_withholding_number = fields.Char("Highgest Withholding Number", compute="_get_highest_withholding_number")
     l10n_ec_withholding_data = fields.Binary("Withholding", compute="_l10n_ec_compute_withholding_data")
-    #  l10n_ec_withholding_data_txt = fields.Text("Withholding Data Text", compute="_l10n_ec_compute_withholding_data")
-
+    l10n_ec_withholding_data_txt = fields.Text("Withholding Data Text", compute="_l10n_ec_compute_withholding_data")
+    description = fields.Text("Description")
 
     @api.depends("move_type", "line_ids")
     def _compute_withholding_type(self):
@@ -157,6 +245,7 @@ class AccountMove(models.Model):
             for base_line in base_lines:
                 base_line_taxes = []
                 base_imponible = abs(base_line.amount_currency if base_line.amount_currency else base_line.balance)
+                _logger.info(f"Base Imponible {base_imponible}")
                 for tax in base_line.tax_ids:
                     #  if tax.tax_group_id.l10n_ec_type in (
                     #          'withhold_vat', 'withhold_income_tax'):
@@ -215,7 +304,7 @@ class AccountMove(models.Model):
             for k, v in withholding_taxes_group.items():
                 withholding_taxes.append(v[0])
 
-            #  move.l10n_ec_withholding_data_txt = json.dumps(withholding_taxes)
+            move.l10n_ec_withholding_data_txt = json.dumps(withholding_taxes)
             move.l10n_ec_withholding_data = withholding_taxes
             _logger.info("Winholding Data: {}".format(withholding_taxes))
 

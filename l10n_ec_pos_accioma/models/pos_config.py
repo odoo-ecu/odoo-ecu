@@ -7,7 +7,7 @@ from odoo import _, api, fields, models
 
 class PosConfig (models.Model):
     _inherit = 'pos.config'
-    
+
     api.depends('invoice_journal_id')
     def _compute_invoice_sequence(self):
         sql = """
@@ -21,14 +21,18 @@ class PosConfig (models.Model):
         for rec in self:
             self.env.cr.execute(sql, (rec.invoice_journal_id.id, ))
             res = self.env.cr.fetchone()
-            
-            rec.invoice_prefix = res[0]
-            rec.invoice_highest_sequence = res[1]
+
+            if res:
+                rec.invoice_prefix = res[0]
+                rec.invoice_highest_sequence = res[1]
+            else:
+                rec.invoice_prefix = "002-003"
+                rec.invoice_highest_sequence = 1
 
     invoice_prefix = fields.Char("Invoice Prefix", compute='_compute_invoice_sequence')
     invoice_highest_sequence = fields.Integer("Highest sequence", compute='_compute_invoice_sequence')
 
 
-    
-    
+
+
 

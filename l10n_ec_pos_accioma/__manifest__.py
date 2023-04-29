@@ -6,7 +6,7 @@
 {
     "name": "POS Ecuador",
     "summary": "Point of Sale localization for Ecuador",
-    "version": " 14.0.1.0.0",
+    "version": " 16.0.1.0.0",
     "category": "Point of Sale",
     "website": "accioma.com",
     "author": " Accioma",
@@ -18,15 +18,20 @@
         "bin": [],
     },
     "depends": [
-        "l10n_ec",
+        "point_of_sale", "l10n_ec",
     ],
     "data": [
-        "views/pos_assets.xml",
     ],
+    "assets": {
+        "point_of_sale.assets": [
+            "l10n_ec_pos_accioma/static/src/js/models.js",
+            "l10n_ec_pos_accioma/static/src/js/sequence.js",
+            "l10n_ec_pos_accioma/static/src/js/L10nEcSequenceOnValidate.js",
+        ],
+    },
     "demo": [
     ],
     "qweb": [
         "static/src/xml/receipt.xml",
     ],
-    "installable": False,
 }
