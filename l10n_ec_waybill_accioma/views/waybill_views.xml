@@ -55,8 +55,9 @@
                           <field name="picking_ids">
                               <tree editable="botton">
                                   <field name="picking_id" domain="[('location_id', '=', parent.location_id)]"/>
-                                  <field name="l10n_ec_waybill_invoice_number"/>
-                                  <field name="l10n_ec_waybill_location_dest_id"/>
+                                  <field name="invoice_id" />
+                                  <field name="route_id" />
+                                  <field name="transport_reason" />
                               </tree>
                           </field>
                       </page>

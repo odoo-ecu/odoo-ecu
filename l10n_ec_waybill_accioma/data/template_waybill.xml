@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
+  <template id="l10n_ec_picking_receiver" name="template_l10n_ec_receiver">
+          <destinatario>
+            <identificacionDestinatario t-esc="pick.picking_id.l10n_ec_waybill_partner_vat" />
+            <razonSocialDestinatario t-esc="pick.picking_id.l10n_ec_waybill_partner_name" />
+            <dirDestinatario t-esc="pick.picking_id.l10n_ec_waybill_partner_street" />
+              <motivoTraslado>VENTA</motivoTraslado>
+              <ruta>VENTA</ruta>
+              <codDocSustento>01</codDocSustento>
+              <numDocSustento t-esc="pick.picking_id.l10n_ec_waybill_invoice_number" />
+              <numAutDocSustento t-esc="pick.picking_id.l10n_ec_waybill_invoice_auth" />
+              <fechaEmisionDocSustento t-field="pick.picking_id.l10n_ec_waybill_invoice_date" t-options="{'format': 'dd/MM/YYYY'}"/>
+            <detalles>
+              <t t-foreach="pick.picking_id.move_line_ids_without_package" t-as="line" >
+                <detalle>
+                  <codigoInterno t-esc="line.product_id.default_code" />
+                  <descripcion t-esc="line.product_id.name" />
+                  <cantidad t-esc="line.qty_done" />
+                  <detallesAdicionales>
+                    <t t-if="line.lot_id.name" >
+                      <detAdicional nombre="lote" t-att-valor="line.lot_id.name" />
+                    </t>
+                  </detallesAdicionales>
+                </detalle>
+              </t>
+            </detalles>
+          </destinatario>
+  </template>
+
+  <template id="l10n_ec_invoice_receiver" name="template_l10n_ec_receiver">
+          <destinatario>
+              <motivoTraslado t-out="pick.transport_reason" />
+              <ruta t-out="pick.route_id.name"></ruta>
+              <codDocSustento t-out="pick.invoice_id.l10n_latam_document_type_id.code" />
+              <numDocSustento t-out="pick.invoice_id.l10n_latam_document_number" />
+              <numAutDocSustento t-out="pick.invoice_id.l10n_ec_authorization_number" />
+              <fechaEmisionDocSustento t-field="pick.invoice_id.invoice_date" t-options="{'format': 'dd/MM/YYYY'}"/>
+            <detalles>
+            <t t-set="lines" t-value="pick.invoice_id.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+            <t t-foreach="lines" t-as="line">
+              <t t-if="line.display_type == 'product'">
+                  <codigoInterno t-esc="line.product_id.default_code" />
+                  <descripcion t-field="line.name" t-options="{'widget': 'text'}"/>
+                  <descripcion t-esc="line.product_id.name" />
+                  <cantidad t-esc="line.quantity" />
+              </t>
+            </t>
+            </detalles>
+          </destinatario>
+
+  </template>
   <template id="guia_remision">
 
     <guiaRemision id="comprobante" version="1.0.0">
@@ -35,37 +85,14 @@
       </infoGuiaRemision>
       <destinatarios>
         <t t-foreach="record.picking_ids" t-as="pick">
-          <destinatario>
-            <identificacionDestinatario t-esc="pick.picking_id.l10n_ec_waybill_partner_vat" />
-            <razonSocialDestinatario t-esc="pick.picking_id.l10n_ec_waybill_partner_name" />
-            <dirDestinatario t-esc="pick.picking_id.l10n_ec_waybill_partner_street" />
-            <t t-if="pick.picking_id.l10n_ec_waybill_invoice_auth != ''">
-              <motivoTraslado>VENTA</motivoTraslado>
-              <ruta>VENTA</ruta>
-              <codDocSustento>01</codDocSustento>
-              <numDocSustento t-esc="pick.picking_id.l10n_ec_waybill_invoice_number" />
-              <numAutDocSustento t-esc="pick.picking_id.l10n_ec_waybill_invoice_auth" />
-              <fechaEmisionDocSustento t-field="pick.picking_id.l10n_ec_waybill_invoice_date" t-options="{'format': 'dd/MM/YYYY'}"/>
+            <t t-if="pick.invoice_id">
+                <t t-call="l10n_ec_waybill_accioma.l10n_ec_invoice_receiver"/>
+            </t>
+            <t t-elif="pick.picking_id">
+                <t t-call="l10n_ec_waybill_accioma.l10n_ec_picking_receiver"/>
             </t>
             <t t-else="">
-              <motivoTraslado>MOVIMIENTO INTERNO</motivoTraslado>
-              <ruta>MOVIMIENTO INTERNO</ruta>
             </t>
-            <detalles>
-              <t t-foreach="pick.picking_id.move_line_ids_without_package" t-as="line" >
-                <detalle>
-                  <codigoInterno t-esc="line.product_id.default_code" />
-                  <descripcion t-esc="line.product_id.name" />
-                  <cantidad t-esc="line.qty_done" />
-                  <detallesAdicionales>
-                    <t t-if="line.lot_id.name" >
-                      <detAdicional nombre="lote" t-att-valor="line.lot_id.name" />
-                    </t>
-                  </detallesAdicionales>
-                </detalle>
-              </t>
-            </detalles>
-          </destinatario>
         </t>
       </destinatarios>
       <infoAdicional>

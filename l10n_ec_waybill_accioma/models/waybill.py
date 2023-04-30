@@ -58,6 +58,7 @@ class EcWaybill(models.Model):
         'Waybill Warehouse')
     company_id = fields.Many2one('res.company', string='Company', required=True, index=True, default=lambda self: self.env.company)
     note = fields.Text('Note')
+
     l10n_ec_add_info_ids = fields.One2many(
         'ec.waybill.additional.info',
         'waybill_id',
@@ -222,14 +223,25 @@ class EcWaybillPicking(models.Model):
         required=True
     )
 
+    invoice_id = fields.Many2one(
+        'account.move',
+        'Invoice',
+        domain=[('state', '=', 'posted'), ('is_move_sent', '=', True), ('move_type', '=', 'out_invoice')],
+        required=False
+    )
+
     picking_id = fields.Many2one(
         'stock.picking',
         'Picking',
         domain=[('state', 'in', ('confirmed', 'assigned', 'done'))],
-        required=True
+        required=False
     )
 
-    l10n_ec_waybill_invoice_number = fields.Char("Invoice Number", related="picking_id.l10n_ec_waybill_invoice_number")
+    route_id = fields.Many2one('transport.route', string='Route')
+
+    transport_reason = fields.Char("Transport Reason")
+    # , related="picking_id.l10n_ec_waybill_invoice_number"
+    l10n_ec_waybill_invoice_number = fields.Char("Invoice Number")
 
     l10n_ec_waybill_location_id = fields.Many2one(
         'stock.location',
@@ -238,6 +250,7 @@ class EcWaybillPicking(models.Model):
     l10n_ec_waybill_location_dest_id = fields.Many2one(
         'stock.location',
         'Dest. Location', related="picking_id.location_dest_id")
+
 
     @api.depends('picking_id')
     def _compute_name(self):

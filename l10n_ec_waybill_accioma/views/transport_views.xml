@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="transport_route_view_form" model="ir.ui.view">
+        <field name="name">transport.route.form</field>
+        <field name="model">transport.route</field>
+        <field name="arch" type="xml">
+            <form string="Transport Route">
+                <sheet>
+                    <field name="name" required="1"/>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="transport_route_view_tree" model="ir.ui.view">
+        <field name="name">transport.route.tree</field>
+        <field name="model">transport.route</field>
+        <field name="arch" type="xml">
+            <tree string="Transport Route">
+                <field name="name" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_transport_route" model="ir.actions.act_window">
+        <field name="name">Transport Routes</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">transport.route</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="transport_route_parent"
+              name="Transport Routes"
+              parent="stock.menu_stock_config_settings"
+              sequence="10"
+              groups="stock.group_stock_manager"
+    />
+
+    <menuitem id="transport_route"
+              name="Routes"
+              parent="transport_route_parent"
+              action="action_transport_route"
+              sequence="1"
+              groups="stock.group_stock_manager"
+    />
+
+</odoo>

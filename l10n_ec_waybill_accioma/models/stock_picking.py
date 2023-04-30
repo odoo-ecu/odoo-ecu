@@ -152,13 +152,6 @@ class StockPicking(models.Model):
         }
 
 
-    #  def waybill_generate_xml(self):
-    #      self.ensure_one()
-    #      report_name = "{}.xml".format(self.l10n_ec_waybill_document_number)
-    #      description = _("Guia Remision: %s", self.move_type)
-    #      data = b"<?xml version='1.0' encoding='UTF-8'?>" +  self._export_waybill_as_xml()
-    #      return data
-    #
     #  def _export_waybill_as_xml(self):
     #      template_values = self._prepare_export_edi_values()
     #      content = self.env.ref('l10n_ec_waybill.guia_remision')._render(template_values)

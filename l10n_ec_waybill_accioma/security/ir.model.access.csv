@@ -6,3 +6,5 @@ access_ec_waybill_picking_manager,ec.waybill.picking user,model_ec_waybill_picki
 access_account_waybill_add_info_manager,ec.move.add.info manager,model_ec_waybill_additional_info,account.group_account_manager,1,0,0,0
 access_account_waybill_add_info_readonly,ec.move.line readonly,model_ec_waybill_additional_info,account.group_account_readonly,1,0,0,0
 access_account_waybill_add_info_uinvoice,ec.move.line invoice,model_ec_waybill_additional_info,account.group_account_invoice,1,1,1,1
+access_ec_transport_route_user,transport.route.user,model_transport_route,stock.group_stock_user,1,0,0,0
+access_ec_transport_route_manager,transport.route.user,model_transport_route,stock.group_stock_manager,1,1,1,1

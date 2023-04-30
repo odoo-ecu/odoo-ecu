@@ -5,3 +5,5 @@
 
 from . import stock_picking
 from . import waybill
+from . import transport
+from . import account_move
