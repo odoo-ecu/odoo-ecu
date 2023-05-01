@@ -8,10 +8,10 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                         <!-- Send (only invoices) -->
-                        <button name="action_create_waybill"
-                                type="object"
-                                string="Create &amp; Waybill"
-                                attrs="{'invisible':['|', '|', ('state', '!=', 'posted'), ('is_move_sent', '=', True), ('move_type', '!=', 'out_invoice')]}"
+                        <button name="%(l10n_ec_waybill_accioma.l10n_ec_cwfi_wiz_action)d"
+                                type="action"
+                                string="Create Waybill"
+                                attrs="{'invisible':['|', '|', ('state', '!=', 'posted'), ('is_move_sent', '=', False), ('move_type', '!=', 'out_invoice')]}"
                                 data-hotkey="r"/>
 
             </xpath>

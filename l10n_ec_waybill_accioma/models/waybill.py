@@ -18,6 +18,7 @@ DOC_NUM_FORMAT = "^\d{3}-\d{3}-\d{9}$"
 class EcWaybill(models.Model):
     _name = 'ec.waybill'
     _description = 'Ecuador Waybill'
+    _order = "id desc"
 
 
     name =  fields.Char('Number', default="GR Borrador")
@@ -57,7 +58,6 @@ class EcWaybill(models.Model):
         'stock.warehouse',
         'Waybill Warehouse')
     company_id = fields.Many2one('res.company', string='Company', required=True, index=True, default=lambda self: self.env.company)
-    note = fields.Text('Note')
 
     l10n_ec_add_info_ids = fields.One2many(
         'ec.waybill.additional.info',

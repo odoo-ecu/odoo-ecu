@@ -1,7 +1,7 @@
 {
     "name": "Waybill Ecuador",
     "summary": "Waybill localization for Ecuador",
-    "version": "14.0.1.0.2",
+    "version": "16.0.1.1.0",
     "category": "Stock",
     "website": "accioma.com",
     "author": "Accioma",
@@ -20,11 +20,11 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "wizard/create_waybill_from_invoice_views.xml",
         "views/stock_picking_views.xml",
         "views/waybill_views.xml",
         "views/account_move_views.xml",
         "views/transport_views.xml",
         "data/template_waybill.xml",
     ],
-    "license": "AGPL-3",
 }

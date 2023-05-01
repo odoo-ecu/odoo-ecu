@@ -8,3 +8,8 @@ access_account_waybill_add_info_readonly,ec.move.line readonly,model_ec_waybill_
 access_account_waybill_add_info_uinvoice,ec.move.line invoice,model_ec_waybill_additional_info,account.group_account_invoice,1,1,1,1
 access_ec_transport_route_user,transport.route.user,model_transport_route,stock.group_stock_user,1,0,0,0
 access_ec_transport_route_manager,transport.route.user,model_transport_route,stock.group_stock_manager,1,1,1,1
+access_ec_create_waybill_wiz_user,l10n.ec.cwfi.wiz.user,model_l10n_ec_cwfi_wiz,account.group_account_user,1,1,1,1
+access_ec_create_waybill_wiz_manager,l10n.ec.cwfi.wiz.man,model_l10n_ec_cwfi_wiz,account.group_account_manager,1,1,1,1
+access_ec_create_waybill_wiz_billing,l10n.ec.cwfi.wiz.bil,model_l10n_ec_cwfi_wiz,account.group_account_invoice,1,1,1,1
+access_ec_create_waybill_wiz_base_user,l10n.ec.cwfi.wiz.base.user,model_l10n_ec_cwfi_wiz,base.group_user,1,1,1,1
+

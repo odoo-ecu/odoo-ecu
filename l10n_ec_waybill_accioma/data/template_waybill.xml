@@ -41,10 +41,12 @@
             <t t-set="lines" t-value="pick.invoice_id.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
             <t t-foreach="lines" t-as="line">
               <t t-if="line.display_type == 'product'">
+                <detalle>
                   <codigoInterno t-esc="line.product_id.default_code" />
                   <descripcion t-field="line.name" t-options="{'widget': 'text'}"/>
                   <descripcion t-esc="line.product_id.name" />
                   <cantidad t-esc="line.quantity" />
+                </detalle>
               </t>
             </t>
             </detalles>
