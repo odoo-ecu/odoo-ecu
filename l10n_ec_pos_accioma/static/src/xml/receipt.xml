@@ -4,6 +4,7 @@
     <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
       <!-- <xpath expr="//img[hasclass('pos-receipt-logo')]" position="replace"></xpath> -->
 
+      <!--
       <xpath expr="//div[hasclass('pos-receipt-order-data')]" position="inside">
         <span>
           <t t-esc="receipt.l10n_latam_invoice_prefix"></t>
@@ -11,7 +12,21 @@
         </span>
           
       </xpath>
+      -->
 
+      <xpath expr="//div[@class='pos-receipt-contact']" position="inside">
+        <t t-if="receipt.partner">
+          <div>
+            Cliente: <t t-out="receipt.partner.name" />
+          </div>
+          <div>
+            CI/RUC: <t t-out="receipt.partner.vat" />
+          </div>
+        </t>
+      </xpath>
+
+
+      <!--
       <xpath expr="//div[hasclass('before-footer')]" position="before">
         <div style="text-align:center;">
           <div t-if="receipt.l10n_latam_invoice_prefix">
@@ -19,6 +34,7 @@
         </div>
 
       </xpath>
+      -->
 
     
     </t>

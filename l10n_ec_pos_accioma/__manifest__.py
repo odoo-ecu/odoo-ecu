@@ -18,15 +18,20 @@
         "bin": [],
     },
     "depends": [
-        "l10n_ec",
+        "point_of_sale", "l10n_ec",
     ],
     "data": [
-        "views/pos_assets.xml",
     ],
+    "assets": {
+        'point_of_sale.assets':[
+            'l10n_ec_pos_accioma/static/src/js/models.js',
+            'l10n_ec_pos_accioma/static/src/xml/receipt.xml'
+        ]
+    },
     "demo": [
     ],
     "qweb": [
         "static/src/xml/receipt.xml",
     ],
-    "installable": False,
+    "installable": True,
 }
