@@ -6,7 +6,7 @@
 {
     "name": "POS Ecuador",
     "summary": "Point of Sale localization for Ecuador",
-    "version": " 14.0.1.0.0",
+    "version": " 16.0.1.0.1",
     "category": "Point of Sale",
     "website": "accioma.com",
     "author": " Accioma",
