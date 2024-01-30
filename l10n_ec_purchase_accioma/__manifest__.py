@@ -12,19 +12,13 @@
     "license": "AGPL-3",
     "application": False,
     "installable": True,
-    "external_dependencies": {
-        "python": [],
-        "bin": [],
-    },
     "depends": [
-        "l10n_ec", "l10n_ec_edi_base_accioma",
+        "account",
+        "l10n_latam_invoice_document",
+        "l10n_ec_edi_base_accioma",
     ],
     "data": [
+        "views/account_move_views.xml"
+
     ],
-    "assets": [
-    ],
-    "demo": [
-    ],
-    "qweb": [
-    ]
 }

@@ -14,26 +14,27 @@ class AccountMove(models.Model):
 
     l10n_ec_edi_in_number = fields.Char("Authorization Number")
 
-@api.onchange('l10n_ec_in_auth_number')
-def _l10n_ec_ed_auth_number_change(self):
-    """Decompose access key, obtain document values and fill the
-    fields according to it"""
+    @api.onchange('l10n_ec_in_auth_number')
+    def _l10n_ec_ed_auth_number_change(self):
+        """Decompose access key, obtain document values and fill the
+        fields according to it"""
 
-    # Check digit validation
-    vd = base_edi.compute_check_digit(self.l10n_ec_in_auth_number[:-1])
-    _logger.info(vd)
+        # Check digit validation
+        vd = None
+        vd = base_edi.compute_check_digit(self.l10n_ec_in_auth_number[:-1])
+        _logger.info(vd)
+    #
+    #
+    #     # Environment validation
+    #
+    #     # Document date
+    #     # self.invoice_date = dt.strptime(self.l10n_ec_in_auth_number[:8], "%d%m%Y")
+    #
+    #     # Get the supplier
+    #
+    #     # Get the document type
+    #
+        # Document number
 
-    
-    # Environment validation
-    
-    # Document date
-    self.invoice_date = dt.strptime(self.l10n_ec_in_auth_number[:8], "%d%m%Y")
 
-    # Get the supplier
-
-    # Get the document type
-
-    # Document number
-
-    
 
