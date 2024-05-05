@@ -9,18 +9,25 @@
             <motivoTraslado t-out="pick.transport_reason" />
             <ruta t-out="pick.route_id.name" />
             <detalles>
-              <t t-foreach="pick.picking_id.move_line_ids_without_package" t-as="line" >
-                <detalle>
-                  <codigoInterno t-out="line.product_id.default_code" />
-                  <descripcion t-out="line.product_id.name" />
-                  <cantidad t-out="'%.0f' % line.qty_done" />
+              <!-- <t t-foreach="pick.picking_id.move_line_ids_without_package" t-as="move" > -->
+                <t t-set="lines" t-value="pick.picking_id.move_ids.filtered(lambda x: x.product_uom_qty)"/>
+                <detalle t-foreach="lines" t-as="move">
+                  <codigoInterno t-out="move.product_id.default_code" />
+                  <descripcion t-out="move.product_id.name" />
+                  <!-- <cantidad t-out="'%.0f' % move.qty_done" /> -->
+                  <cantidad t-out="move.quantity_done"></cantidad>
                   <detallesAdicionales>
-                    <t t-if="line.lot_id.name" >
-                      <detAdicional nombre="lote" t-att-valor="line.lot_id.name" />
+                    <!-- <t t-if="line.lot_id.name" > -->
+                    <t t-set="has_serial_number" t-value="False"/>
+                    <t t-set="has_serial_number" t-value="move.move_line_ids.mapped('lot_id')" groups="stock.group_lot_on_delivery_slip"/>
+                    <!-- If printing lots/serial numbers => keep products in original lines -->
+                    <t t-if="has_serial_number">
+                        <t t-foreach="move.move_line_ids" t-as="move_line">
+                            <detAdicional nombre="lote" t-att-valor="move_line.lot_id.name" />
+                         </t>
                     </t>
                   </detallesAdicionales>
                 </detalle>
-              </t>
             </detalles>
           </destinatario>
   </template>

@@ -70,6 +70,10 @@
                                 </tree>
                             </field>
                           </group>
+                          <group>
+                              <field name="auth_number"></field>
+                              <field name="auth_date"></field>
+                          </group>
                       </page>
                   </notebook>
               </sheet>

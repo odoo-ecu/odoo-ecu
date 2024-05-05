@@ -59,6 +59,10 @@ class EcWaybill(models.Model):
         'Waybill Warehouse')
     company_id = fields.Many2one('res.company', string='Company', required=True, index=True, default=lambda self: self.env.company)
 
+    auth_number = fields.Char("Authorization Number", read_only=True, compute="_get_authorization")
+    auth_date = fields.Datetime("Authorization Date", read_only=True, compute="_get_authorization")
+
+
     l10n_ec_add_info_ids = fields.One2many(
         'ec.waybill.additional.info',
         'waybill_id',
@@ -131,6 +135,11 @@ class EcWaybill(models.Model):
                 document_number
             )
         except Exception as e:
+            _logger.info("Issuing date: %s" % issuing_date)
+            _logger.info("Voucher type: %s" % voucher_type)
+            _logger.info("Identifier: %s" % identifier)
+            _logger.info("Environment: %s" % environment)
+            _logger.info("Document Number: %s" % document_number)
             raise ValidationError("Error validating access keu: {}".format(e))
 
     def action_validate(self):
@@ -209,6 +218,18 @@ class EcWaybill(models.Model):
     _sql_constraints = [
         ('waybill_document_number_uniq', 'UNIQUE (company_id, l10n_ec_waybill_document_number)', 'Waybill document number must be unique')
     ]
+
+    def _get_authorization(self):
+        """Gets the authorization from EDI Document"""
+        for waybill in self:
+
+            edi_document = self.env['l10nec.edi.document'].search(
+                    [('model', '=', 'ec.waybill'),
+                     ('res_id', '=', waybill.id)]
+            )
+
+            waybill.auth_number = edi_document.name
+            waybill.auth_date = edi_document.authorization_date
 
 
 class EcWaybillPicking(models.Model):
