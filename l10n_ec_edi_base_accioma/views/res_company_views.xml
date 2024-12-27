@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record id="res_company_view_form" model="ir.ui.view">
+    <field name="model">res.company</field>
+    <field name="inherit_id" ref="base.view_company_form" />
+    <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+            <page string="SRI">
+                <group>
+                    <group>
+                        <field name="l10n_ec_regime_microenterprise"/>
+                        <field name="l10n_ec_retention_agent"/>
+                        <field name="l10n_ec_enforced_accounting"/>
+                        <field name="l10n_ec_special_taxpayer"/>
+                    </group>
+                </group>
+            </page>
+        </xpath>
+    </field>
+</record>
+
+</odoo>
