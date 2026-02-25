@@ -1,0 +1,224 @@
+zipcode,id,name,state_id/id,country_id/id
+3,EC0101,CUENCA,base.state_ec_01,base.ec
+84,EC0102,GIRON,base.state_ec_01,base.ec
+54,EC0103,GUALACEO,base.state_ec_01,base.ec
+88,EC0104,NABON,base.state_ec_01,base.ec
+41,EC0105,PAUTE,base.state_ec_01,base.ec
+94,EC0106,PUCARA,base.state_ec_01,base.ec
+64,EC0107,SAN FERNANDO,base.state_ec_01,base.ec
+70,EC0108,SANTA ISABEL,base.state_ec_01,base.ec
+76,EC0109,SIGSIG,base.state_ec_01,base.ec
+2650000641,EC0110,OÑA,base.state_ec_01,base.ec
+10000556,EC0111,CHORDELEG,base.state_ec_01,base.ec
+2650000642,EC0112,EL PAN,base.state_ec_01,base.ec
+2650000643,EC0113,SEVILLA DE ORO,base.state_ec_01,base.ec
+2650000644,EC0114,GUACHAPALA,base.state_ec_01,base.ec
+2650000645,EC0115,CAMILO PONCE ENRIQUEZ,base.state_ec_01,base.ec
+97,EC0201,GUARANDA,base.state_ec_02,base.ec
+127,EC0202,CHILLANES,base.state_ec_02,base.ec
+128,EC0203,CHIMBO,base.state_ec_02,base.ec
+129,EC0204,ECHEANDIA,base.state_ec_02,base.ec
+130,EC0205,SAN MIGUEL,base.state_ec_02,base.ec
+2650000646,EC0206,CALUMA,base.state_ec_02,base.ec
+2650000647,EC0207,LAS NAVES,base.state_ec_02,base.ec
+132,EC0301,AZOGUES,base.state_ec_03,base.ec
+164,EC0302,BIBLIAN,base.state_ec_03,base.ec
+151,EC0303,CAÑAR,base.state_ec_03,base.ec
+147,EC0304,LA TRONCAL,base.state_ec_03,base.ec
+163,EC0305,EL TAMBO,base.state_ec_03,base.ec
+2650000648,EC0306,DELEG,base.state_ec_03,base.ec
+2650000649,EC0307,SUSCAL,base.state_ec_03,base.ec
+170,EC0401,TULCAN,base.state_ec_04,base.ec
+205,EC0402,BOLÍVAR,base.state_ec_04,base.ec
+209,EC0403,ESPEJO,base.state_ec_04,base.ec
+210,EC0404,MIRA,base.state_ec_04,base.ec
+211,EC0405,MONTUFAR,base.state_ec_04,base.ec
+2650000650,EC0406,SAN PEDRO DE HUACA,base.state_ec_04,base.ec
+213,EC0501,LATACUNGA,base.state_ec_05,base.ec
+260,EC0502,LA MANA,base.state_ec_05,base.ec
+261,EC0503,PANGUA,base.state_ec_05,base.ec
+262,EC0504,PUJILI,base.state_ec_05,base.ec
+263,EC0505,SALCEDO,base.state_ec_05,base.ec
+264,EC0506,SAQUISILI,base.state_ec_05,base.ec
+265,EC0507,SIGCHOS,base.state_ec_05,base.ec
+267,EC0601,RIOBAMBA,base.state_ec_06,base.ec
+284,EC0602,ALAUSI,base.state_ec_06,base.ec
+296,EC0603,COLTA,base.state_ec_06,base.ec
+303,EC0604,CHAMBO,base.state_ec_06,base.ec
+305,EC0605,CHUNCHI,base.state_ec_06,base.ec
+311,EC0606,GUAMOTE,base.state_ec_06,base.ec
+315,EC0607,GUANO,base.state_ec_06,base.ec
+327,EC0608,PALLATANGA,base.state_ec_06,base.ec
+329,EC0609,PENIPE,base.state_ec_06,base.ec
+2650000651,EC0610,CUMANDA,base.state_ec_06,base.ec
+336,EC0701,MACHALA,base.state_ec_07,base.ec
+342,EC0702,ARENILLAS,base.state_ec_07,base.ec
+347,EC0703,ATAHUALPA,base.state_ec_07,base.ec
+352,EC0704,BALSAS,base.state_ec_07,base.ec
+354,EC0705,CHILLA,base.state_ec_07,base.ec
+356,EC0706,EL GUABO,base.state_ec_07,base.ec
+361,EC0707,HUAQUILLAS,base.state_ec_07,base.ec
+2650000652,EC0708,MARCABELI,base.state_ec_07,base.ec
+365,EC0709,PASAJE,base.state_ec_07,base.ec
+373,EC0710,PIÑAS,base.state_ec_07,base.ec
+380,EC0711,PORTOVELO,base.state_ec_07,base.ec
+385,EC0712,SANTA ROSA,base.state_ec_07,base.ec
+393,EC0713,ZARUMA,base.state_ec_07,base.ec
+363,EC0714,LAS LAJAS,base.state_ec_07,base.ec
+401,EC0801,ESMERALDAS,base.state_ec_08,base.ec
+464,EC0802,ELOY ALFARO,base.state_ec_08,base.ec
+465,EC0803,MUISNE,base.state_ec_08,base.ec
+466,EC0804,QUININDE,base.state_ec_08,base.ec
+467,EC0805,SAN LORENZO,base.state_ec_08,base.ec
+2650000653,EC0806,ATACAMES,base.state_ec_08,base.ec
+2650000654,EC0807,RIO VERDE,base.state_ec_08,base.ec
+10002719,EC0808,LA CONCORDIA,base.state_ec_08,base.ec
+469,EC0901,GUAYAQUIL,base.state_ec_09,base.ec
+502,EC0902,ALFREDO BAQUERIZO MORENO (JUJAN),base.state_ec_09,base.ec
+492,EC0903,BALAO,base.state_ec_09,base.ec
+500,EC0904,BALZAR,base.state_ec_09,base.ec
+504,EC0905,COLIMES,base.state_ec_09,base.ec
+506,EC0906,DAULE,base.state_ec_09,base.ec
+512,EC0907,DURAN,base.state_ec_09,base.ec
+515,EC0908,EL EMPALME(VELASCO I.),base.state_ec_09,base.ec
+519,EC0909,EL TRIUNFO,base.state_ec_09,base.ec
+521,EC0910,MILAGRO,base.state_ec_09,base.ec
+494,EC0911,NARANJAL,base.state_ec_09,base.ec
+527,EC0912,NARANJITO,base.state_ec_09,base.ec
+529,EC0913,PALESTINA,base.state_ec_09,base.ec
+532,EC0914,PEDRO CARBO,base.state_ec_09,base.ec
+538,EC0915,SALINAS,base.state_ec_09,base.ec
+545,EC0916,SAMBORONDON,base.state_ec_09,base.ec
+548,EC0917,SANTA ELENA,base.state_ec_09,base.ec
+556,EC0918,SANTA LUCIA,base.state_ec_09,base.ec
+558,EC0919,URBINA JADO - EL SALITRE (LAS RAMAS),base.state_ec_09,base.ec
+567,EC0920,SAN JACINTO DE YAGUACHI,base.state_ec_09,base.ec
+536,EC0921,PLAYAS,base.state_ec_09,base.ec
+572,EC0922,SIMON BOLIVAR,base.state_ec_09,base.ec
+575,EC0923,CORONEL MARCELINO MARIDUEÑA,base.state_ec_09,base.ec
+577,EC0924,LOMAS DE SARGENTILLO,base.state_ec_09,base.ec
+580,EC0925,NOBOL/PIEDRAHITA,base.state_ec_09,base.ec
+582,EC0926,LA LIBERTAD,base.state_ec_09,base.ec
+584,EC0927,GENERAL ANTONIO ELIZALDE,base.state_ec_09,base.ec
+586,EC0928,ISIDRO AYORA,base.state_ec_09,base.ec
+531,EC0999,PETRILLO,base.state_ec_09,base.ec
+589,EC1001,IBARRA,base.state_ec_10,base.ec
+639,EC1002,ANTONIO ANTE,base.state_ec_10,base.ec
+640,EC1003,COTACACHI,base.state_ec_10,base.ec
+641,EC1004,OTAVALO,base.state_ec_10,base.ec
+642,EC1005,PIMAMPIRO,base.state_ec_10,base.ec
+643,EC1006,SAN MIGUEL DE URCUQUI,base.state_ec_10,base.ec
+645,EC1101,LOJA,base.state_ec_11,base.ec
+663,EC1102,CALVAS,base.state_ec_11,base.ec
+670,EC1103,CATAMAYO,base.state_ec_11,base.ec
+676,EC1104,CELICA,base.state_ec_11,base.ec
+681,EC1105,CHAGUARPAMBA,base.state_ec_11,base.ec
+686,EC1106,ESPINDOLA,base.state_ec_11,base.ec
+693,EC1107,GONZANAMA,base.state_ec_11,base.ec
+699,EC1108,MACARA,base.state_ec_11,base.ec
+705,EC1109,PALTAS,base.state_ec_11,base.ec
+722,EC1110,PUYANGO,base.state_ec_11,base.ec
+733,EC1111,SARAGURO,base.state_ec_11,base.ec
+744,EC1112,SOZORANGA,base.state_ec_11,base.ec
+748,EC1113,ZAPOTILLO,base.state_ec_11,base.ec
+717,EC1114,PINDAL,base.state_ec_11,base.ec
+729,EC1115,QUILANGA,base.state_ec_11,base.ec
+2650000656,EC1116,OLMEDO,base.state_ec_11,base.ec
+755,EC1201,BABAHOYO,base.state_ec_12,base.ec
+764,EC1202,BABA,base.state_ec_12,base.ec
+768,EC1203,MONTALVO,base.state_ec_12,base.ec
+770,EC1204,PUEBLO VIEJO,base.state_ec_12,base.ec
+774,EC1205,QUEVEDO,base.state_ec_12,base.ec
+788,EC1206,URDANETA,base.state_ec_12,base.ec
+791,EC1207,VENTANAS,base.state_ec_12,base.ec
+795,EC1208,VINCES,base.state_ec_12,base.ec
+798,EC1209,PALENQUE,base.state_ec_12,base.ec
+800,EC1210,SAN JACINTO DE BUENA FE,base.state_ec_12,base.ec
+805,EC1211,VALENCIA,base.state_ec_12,base.ec
+803,EC1212,MOCACHE,base.state_ec_12,base.ec
+10002717,EC1213,PUEBLOVIEJO,base.state_ec_12,base.ec
+808,EC1301,PORTOVIEJO,base.state_ec_13,base.ec
+822,EC1302,BOLIVAR,base.state_ec_13,base.ec
+823,EC1303,CHONE,base.state_ec_13,base.ec
+833,EC1304,EL CARMEN,base.state_ec_13,base.ec
+837,EC1305,FLAVIO ALFARO,base.state_ec_13,base.ec
+841,EC1306,JIPIJAPA,base.state_ec_13,base.ec
+851,EC1307,JUNIN,base.state_ec_13,base.ec
+853,EC1308,MANTA,base.state_ec_13,base.ec
+861,EC1309,MONTECRISTI,base.state_ec_13,base.ec
+865,EC1310,PAJAN,base.state_ec_13,base.ec
+871,EC1311,PICHINCHA,base.state_ec_13,base.ec
+875,EC1312,ROCAFUERTE,base.state_ec_13,base.ec
+877,EC1313,SANTA ANA,base.state_ec_13,base.ec
+885,EC1314,SUCRE,base.state_ec_13,base.ec
+892,EC1315,TOSAGUA,base.state_ec_13,base.ec
+896,EC1316,24 DE MAYO,base.state_ec_13,base.ec
+901,EC1317,PEDERNALES,base.state_ec_13,base.ec
+906,EC1318,OLMEDO ,base.state_ec_13,base.ec
+908,EC1319,PUERTO LOPEZ,base.state_ec_13,base.ec
+912,EC1320,JAMA,base.state_ec_13,base.ec
+914,EC1321,JARAMIJO,base.state_ec_13,base.ec
+916,EC1322,SAN VICENTE,base.state_ec_13,base.ec
+920,EC1401,MACAS,base.state_ec_14,base.ec
+933,EC1402,GUALAQUIZA,base.state_ec_14,base.ec
+943,EC1403,LIMON INDANZA,base.state_ec_14,base.ec
+953,EC1404,PALORA,base.state_ec_14,base.ec
+959,EC1405,SANTIAGO,base.state_ec_14,base.ec
+967,EC1406,SUCUA,base.state_ec_14,base.ec
+2650000657,EC1407,HUAMBOYA,base.state_ec_14,base.ec
+2650000658,EC1408,SAN JUAN BOSCO,base.state_ec_14,base.ec
+2650000659,EC1409,TAISHA,base.state_ec_14,base.ec
+2650000660,EC1410,LOGROÑO,base.state_ec_14,base.ec
+2650000661,EC1411,PABLO VI,base.state_ec_14,base.ec
+2650000662,EC1412,TIWINTZA,base.state_ec_14,base.ec
+10002303,EC1413,MORONA,base.state_ec_14,base.ec
+974,EC1501,TENA,base.state_ec_15,base.ec
+982,EC1503,ARCHIDONA,base.state_ec_15,base.ec
+996,EC1504,EL CHACO,base.state_ec_15,base.ec
+1011,EC1507,QUIJOS,base.state_ec_15,base.ec
+2650000666,EC1509,CARLOS JULIO AROSEMENA TOLA,base.state_ec_15,base.ec
+1020,EC1601,PASTAZA,base.state_ec_16,base.ec
+1037,EC1602,MERA,base.state_ec_16,base.ec
+2650000667,EC1603,SANTA CLARA,base.state_ec_16,base.ec
+2650000668,EC1604,ARAJUNO,base.state_ec_16,base.ec
+1042,EC1701,QUITO,base.state_ec_17,base.ec
+1129,EC1702,CAYAMBE,base.state_ec_17,base.ec
+1130,EC1703,MEJIA,base.state_ec_17,base.ec
+1131,EC1704,PEDRO MONCAYO,base.state_ec_17,base.ec
+1132,EC1705,RUMIÑAHUI,base.state_ec_17,base.ec
+1133,EC1706,SANTO DOMINGO,base.state_ec_17,base.ec
+2650000669,EC1707,SAN MIGUEL DE LOS BANCOS,base.state_ec_17,base.ec
+2650000670,EC1708,PEDRO VICENTE MALDONADO,base.state_ec_17,base.ec
+2650000671,EC1709,PUERTO QUITO,base.state_ec_17,base.ec
+1135,EC1801,AMBATO,base.state_ec_18,base.ec
+1164,EC1802,BAÑOS DE AGUA SANTA,base.state_ec_18,base.ec
+1170,EC1803,CEVALLOS,base.state_ec_18,base.ec
+1172,EC1804,MOCHA,base.state_ec_18,base.ec
+1175,EC1805,PATATE,base.state_ec_18,base.ec
+1181,EC1806,QUERO,base.state_ec_18,base.ec
+1185,EC1807,SAN PEDRO DE PELILEO,base.state_ec_18,base.ec
+1196,EC1808,SANTIAGO DE PILLARO,base.state_ec_18,base.ec
+1206,EC1809,TISALEO,base.state_ec_18,base.ec
+1209,EC1901,ZAMORA,base.state_ec_19,base.ec
+1219,EC1902,CHINCHIPE,base.state_ec_19,base.ec
+1229,EC1903,NANGARITZA,base.state_ec_19,base.ec
+1231,EC1904,YACUAMBI,base.state_ec_19,base.ec
+1235,EC1905,YANTZAZA,base.state_ec_19,base.ec
+2650000672,EC1906,EL PANGUI,base.state_ec_19,base.ec
+2650000673,EC1907,CENTINELA DEL CONDOR,base.state_ec_19,base.ec
+2650000674,EC1908,PALANDA,base.state_ec_19,base.ec
+2650000675,EC1909,PAQUISHA,base.state_ec_19,base.ec
+2650000676,EC2001,SAN CRISTOBAL,base.state_ec_20,base.ec
+2650000677,EC2002,ISABELA,base.state_ec_20,base.ec
+2650000678,EC2003,SANTA CRUZ,base.state_ec_20,base.ec
+1242,EC2101,LAGO AGRIO,base.state_ec_21,base.ec
+1244,EC212,GONZALO PIZARRO,base.state_ec_21,base.ec
+1245,EC213,PUTUMAYO,base.state_ec_21,base.ec
+1246,EC214,SHUSHUFINDI,base.state_ec_21,base.ec
+1247,EC215,SUCUMBIOS,base.state_ec_21,base.ec
+2650000679,EC216,CASCALES,base.state_ec_21,base.ec
+2650000680,EC217,CUYABENO,base.state_ec_21,base.ec
+1009,EC2201,ORELLANA,base.state_ec_22,base.ec
+989,EC2202,AGUARICO,base.state_ec_22,base.ec
+1003,EC2203,LA JOYA DE LOS SACHAS,base.state_ec_22,base.ec
+2650000663,EC2204,LORETO,base.state_ec_22,base.ec

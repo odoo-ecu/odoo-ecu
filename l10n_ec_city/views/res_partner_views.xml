@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="address_street_extended_form_city_domain" model="ir.ui.view">
+        <field name="name">partner.form.address.extended.city.domain</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base_address_extended.address_street_extended_form"/>
+        <field name="arch" type="xml">
+            <field name="city_id" position="attributes">
+                <attribute name="domain">[('country_id', '=', country_id), ('state_id', '=?', state_id)]</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="address_street_extended_city_form_domain" model="ir.ui.view">
+        <field name="name">partner.form.address.extended.city_id.domain</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base_address_extended.address_street_extended_city_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='city']/preceding-sibling::field[@name='city_id']" position="attributes">
+                <attribute name="domain">[('country_id', '=', country_id), ('state_id', '=?', state_id)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='child_ids']//form//field[@name='city_id']" position="attributes">
+                <attribute name="domain">[('country_id', '=', country_id), ('state_id', '=?', state_id)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
