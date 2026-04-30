@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record id="l10n_ec_waybill_stock_picking_view_inherit_form" model="ir.ui.view">
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form" />
+    <field name="arch" type="xml">
+        <field name="backorder_id" position="after">
+            <field name="l10n_ec_waybill_invoice_number"/>
+        </field>
+        <!-- <xpath expr="//notebook" position="inside"> -->
+        <!--     <page string="Waybill"> -->
+        <!--         <group colspan="4" invisible="0" > -->
+        <!--             <field name="l10n_ec_waybill_before"/> -->
+        <!--             <field name="l10n_ec_waybill_last_sequence"/> -->
+        <!--         </group> -->
+        <!--         <group colspan="4"> -->
+        <!--             <div class="oe_title"> -->
+        <!--                 <label class="oe_edit_only" for="l10n_ec_waybill_document_number"></label> -->
+        <!--                 <h2> -->
+        <!--                     <field name="l10n_ec_waybill_document_number" attrs="{'required': [('is_l10n_ec_waybill', '=', True), ('l10n_ec_waybill_last_sequence', '=', '/')]}"/> -->
+        <!--                 </h2> -->
+        <!--             </div> -->
+        <!--         </group> -->
+        <!--         <group> -->
+        <!--             <group> -->
+        <!--                 <field name="transport_start_date"/> -->
+        <!--                 <field name="vehicle_id"/> -->
+        <!--                 <field name="driver_id"/> -->
+        <!--             </group> -->
+        <!--         </group> -->
+        <!--     </page> -->
+        <!-- </xpath> -->
+        <!-- <xpath expr="//div[@name='button_box']" position="inside"> -->
+        <!--     <button name="action_waybill" icon="fa-truck" class="oe_stat_button" attrs="{'invisible': [('state', 'not in', ('assigned', 'confirmed', 'partially_available', 'draft', 'waiting'))], 'readonly': [('l10n_ec_waybill_before', '=', True)]}" string="Waybill" groups="base.group_user" type="object"> -->
+        <!--         <field name="is_l10n_ec_waybill" string="Waybill" widget="toggle_button"/> -->
+        <!--     </button> -->
+        <!-- </xpath> -->
+    </field>
+</record>
+
+</odoo>

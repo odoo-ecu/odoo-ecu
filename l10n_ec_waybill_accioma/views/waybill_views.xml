@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <record id="ec_waybill_view_tree" model="ir.ui.view">
+      <field name="model">ec.waybill</field>
+      <field name="type">tree</field>
+      <field name="arch" type="xml">
+          <tree string="Waybills">
+              <field name="name"/>
+              <field name="date"/>
+              <field name="date_due"/>
+              <field name="vehicle_id"/>
+              <field name="driver_id"/>
+              <field name="location_id"/>
+          </tree>
+      </field>
+  </record>
+
+  <record id="ec_waybill_view_form" model="ir.ui.view">
+      <field name="model">ec.waybill</field>
+      <field name="arch" type="xml">
+          <form string="Waybill">
+              <header>
+                  <button string="Validate" invisible="state != 'draft'" type="object" name="action_validate" />
+                  <button string="Cancel" invisible="state not in ['waiting', 'in-progress']" type="object" name="action_cancel" />
+                  <field name="state" widget="statusbar" statusbar_visible="draft,waiting,done,cancel,in-progress" />
+              </header>
+              <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button type="object" class="oe_stat_button" name="action_view_edi_documents" icon="fa-book" >
+                        <div class="o_field_widget o_stat_info">
+                            <!-- <span class="o_stat_value"><field name="debit_note_count"/></span> -->
+                            <span class="o_stat_text">Electronic<br />Documents</span>
+                        </div>
+                    </button>
+                </div>
+                  <div class="oe_title">
+                      <h1>
+                          <field name="name" invisible="l10n_ec_waybill_document_number == False"/>
+                      </h1>
+                  </div>
+                  <group col="4">
+                      <field name="date"/>
+                      <field name="date_due"/>
+                      <field name="vehicle_id"/>
+                      <field name="driver_id"/>
+                      <field name="user_id"/>
+                      <field name="location_id"/>
+                      <field name="l10n_ec_waybill_document_number" invisible="l10n_ec_waybill_last_sequence != '/' or location_id == False"/>
+                      <field name="l10n_ec_waybill_last_sequence" invisible="1"/>
+
+                  </group>
+                  <notebook>
+                      <page string="Delivery Orders">
+                          <field name="picking_ids">
+                              <tree editable="botton">
+                                  <field name="picking_id" domain="[('location_id', '=', parent.location_id)]"/>
+                                  <field name="invoice_id" />
+                                  <field name="route_id" />
+                                  <field name="transport_reason" />
+                              </tree>
+                          </field>
+                      </page>
+                      <page string="EDI Ecuador">
+                          <group string="Additional Info">
+                            <field name="l10n_ec_add_info_ids" nolabel="1" colspan="2">
+                                <tree editable="bottom">
+                                    <field name="key"/>
+                                    <field name="value"/>
+                                </tree>
+                            </field>
+                          </group>
+                          <group>
+                              <field name="auth_number"></field>
+                              <field name="auth_date"></field>
+                          </group>
+                      </page>
+                  </notebook>
+              </sheet>
+          </form>
+      </field>
+  </record>
+
+  <record id="l10n_ec_waybill_action" model="ir.actions.act_window">
+    <field name="name">Waybills</field>
+    <field name="res_model">ec.waybill</field>
+    <!-- <field name="view_type">form</field> -->
+    <field name="type">ir.actions.act_window</field>
+    <field name="view_mode">tree,form</field>
+    <!-- <field name="domain"></field> -->
+    <!-- <field name="context">{'contact_display': 'partner_address'}</field> -->
+    <!-- <field name="search_view_id" ref="view_picking_internal_search"/> -->
+    <field name="help" type="html">
+       <p class="o_view_nocontent_smiling_face">
+           No waybill found. Let's create one!
+       </p><p>
+           Waybills allow you to move products from one location to another.
+       </p>
+    </field>
+  </record>
+
+  <menuitem id="all_waybills" name="Waybills" parent="stock.menu_stock_warehouse_mgmt" sequence="100" action="l10n_ec_waybill_action" groups="stock.group_stock_manager,stock.group_stock_user"/>
+
+
+</odoo>
