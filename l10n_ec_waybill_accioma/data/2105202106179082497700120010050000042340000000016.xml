@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<guiaRemision id="comprobante" version="1.0.0">
+  <infoTributaria>
+    <ambiente>2</ambiente>
+    <tipoEmision>1</tipoEmision>
+    <razonSocial>TEXTIQUIM CIA. LTDA.</razonSocial>
+    <nombreComercial>TEXTIQUIM CIA. LTDA.</nombreComercial>
+    <ruc>1790824977001</ruc>
+    <!-- <claveAcceso t-esc="access_key"></claveAcceso> -->
+    <codDoc>06</codDoc>
+    <estab>001</estab>
+    <ptoEmi>005</ptoEmi>
+    <secuencial>000004234</secuencial>
+    <dirMatriz>VICENTE DUQUE N77-443 Y JUAN DE SELIS</dirMatriz>
+    <agenteRetencion>1</agenteRetencion>
+  </infoTributaria>
+  <infoGuiaRemision>
+    <dirEstablecimiento>VICENTE DUQUE N77-443 Y JUAN DE SELIS</dirEstablecimiento>
+    <dirPartida>QUITO-CARCELEN</dirPartida>
+    <razonSocialTransportista>EXACTO CARGA</razonSocialTransportista>
+    <tipoIdentificacionTransportista>04</tipoIdentificacionTransportista>
+    <rucTransportista>0993108766001</rucTransportista>
+    <obligadoContabilidad>SI</obligadoContabilidad>
+    <contribuyenteEspecial>0000</contribuyenteEspecial>
+    <fechaIniTransporte>21/05/2021</fechaIniTransporte>
+    <fechaFinTransporte>25/05/2021</fechaFinTransporte>
+    <placa>S/N</placa>
+  </infoGuiaRemision>
+  <destinatarios>
+    <destinatario>
+      <identificacionDestinatario>0860005040001</identificacionDestinatario>
+      <razonSocialDestinatario>DIRECCION DISTRITAL 08D03 -MUISNE - ATACAMES -SALUD</razonSocialDestinatario>
+      <dirDestinatario>ESMERALDAS</dirDestinatario>
+      <motivoTraslado>VENTA</motivoTraslado>
+      <ruta>VENTA</ruta>
+      <codDocSustento>01</codDocSustento>
+      <numDocSustento>001-005-000016590</numDocSustento>
+      <numAutDocSustento>2105202101179082497700120010050000165900000000014</numAutDocSustento>
+      <fechaEmisionDocSustento>21/05/2021</fechaEmisionDocSustento>
+      <detalles>
+        <detalle>
+          <codigoInterno>0102010028</codigoInterno>
+          <descripcion>[0102010028] LIDEX CLORHEXIDINA SOLUCIÓN 2%  1L</descripcion>
+          <cantidad>121.00</cantidad>
+        </detalle>
+        <detalle>
+          <codigoInterno>0102100007</codigoInterno>
+          <descripcion>[0102100007] PARACELSO  ALCOHOL YODADO 1000 ML</descripcion>
+          <cantidad>1.00</cantidad>
+        </detalle>
+        <detalle>
+          <codigoInterno>0102100138</codigoInterno>
+          <descripcion>[0102100138] PARACELSO GLUTERALDEHIDO 2% GALÓN</descripcion>
+          <cantidad>6.00</cantidad>
+        </detalle>
+      </detalles>
+    </destinatario>
+  </destinatarios>
+</guiaRemision>

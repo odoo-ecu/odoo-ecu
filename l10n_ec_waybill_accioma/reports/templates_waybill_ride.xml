@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Legally required data & barcode (re-used by withhold report) -->
+    <template id="report_waybill_header">
+        <table class="table table-borderless w-100 m-1">
+            <tr>
+                <td class="pe-1" style="width: 30%">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td class="text-center p-1">
+                                <h4 style="letter-spacing: 2px;">
+                                    <span t-field="o.company_id.l10n_ec_legal_name" />
+                                </h4>
+                                <div style="font-size: 12px;">
+                                    <strong>
+                                        <t
+                                            t-if="o.company_id.partner_id.l10n_latam_identification_type_id"
+                                            t-out="o.company_id.partner_id.l10n_latam_identification_type_id.name"
+                                            id="inv_tax_id_label" />
+                                        <t t-else="">RUC/Cédula</t>: </strong>
+                                    <span
+                                        t-field="o.company_id.partner_id.vat" />
+                                    <br />
+                                    <t
+                                        t-if="o.location_id.warehouse_id.partner_id.street">
+                                        <strong>Branch Office address: </strong>
+                                        <span t-field="o.location_id.warehouse_id.partner_id.street" />
+                                        <t t-if="o.location_id.warehouse_id.partner_id.street">
+                                            <span
+                                                t-field="o.location_id.warehouse_id.partner_id.street2" />
+                                        </t>
+                                        <br />
+                                    </t>
+                                    <t
+                                        t-if="o.company_id.l10n_ec_special_taxpayer_number">
+                                        <strong>Special Taxpayer Number: </strong>
+                                        <span t-field="o.company_id.l10n_ec_special_taxpayer_number" />
+                                        <br />
+                                    </t>
+                                    <strong>
+                                    Environment: </strong>
+                                    <t
+                                        t-if="o.company_id.l10n_ec_production_env">Production</t>
+                                    <t
+                                        t-else="">Testing</t>
+                                    <br />
+                                    <strong>Emission: </strong>Normal <br />
+                                    <strong>Obliged
+                                    to keep accounting: </strong>
+                                    <t
+                                        t-if="o.company_id.l10n_ec_forced_accounting">Yes</t>
+                                    <t
+                                        t-else="">No</t>
+                                    <br />
+                                    <t
+                                        t-if="o.company_id.l10n_ec_withhold_agent_number">
+                                        <strong>Withhold Agent Resolution No.: </strong>
+                                        <span t-field="o.company_id.l10n_ec_withhold_agent_number" />
+                                        <br />
+                                    </t>
+                                    <t
+                                        t-if="o.company_id.l10n_ec_regime == 'rimpe'"> RIMPE
+                                    Contributor Type <br />
+                                    </t>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="p-1" style="width: 70%">
+                    <table class="table table-condensed m-1">
+                        <tr>
+                            <td class="text-center border-top-0 p-1">
+                                <h4 style="letter-spacing: 2px;"> Waybill <br />
+                                    <span
+                                        t-field="o.l10n_ec_waybill_document_number" />
+                                </h4>
+                                <t t-if="o.auth_number">
+                                    <div class="text-center" style="font-size: 12px">
+                                        <strong>Authorization No.: <span t-field="o.auth_number" /></strong>
+                                    </div>
+                                    <div class="text-justify">
+                                        <img style="width:100%; height:15.5mm;"
+                                            t-att-src="'/report/barcode/Code128/' + o.auth_number"
+                                            alt="Missing barcode for authorization number"
+                                        />
+                                    </div>
+                                    <div class="text-center" style="font-size: 12px">
+                                        <strong>Access Key: <span t-field="o.auth_number" /></strong>
+                                    </div>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </template>
+
+    <template id="l10n_ec_waybill_accioma.report_waybill_recipient">
+        <!-- Invoice & partner information -->
+        <div id="waybill_recipients" class="row mt-1 mb-2">
+            <div class="col-auto mw-100 mb-2" name="l10n_ec_recipient">
+                <t t-foreach="o.picking_ids" t-as="waybill_picking">
+                    <div class="row mb-1">
+                        <table class="table table-sm table-borderless">
+                            <tr t-if="waybill_picking.transport_reason">
+                                <td>
+                                    <strong>Transport Reason:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="waybill_picking.transport_reason"></span>
+                                </td>
+                            </tr>
+                            <tr t-if="waybill_picking.picking_id.partner_id">
+                                <td>
+                                    <strong>Delivery Address:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="waybill_picking.picking_id.partner_id.street"></span>
+                                </td>
+                            </tr>
+                            <tr t-if="waybill_picking.picking_id.partner_id">
+                                <td>
+                                    <strong>Recipient Identification:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="waybill_picking.picking_id.partner_id.vat"></span>
+                                </td>
+                            </tr>
+                            <tr t-if="waybill_picking.picking_id.partner_id">
+                                <td>
+                                    <strong>Recipient Name:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="waybill_picking.picking_id.partner_id.name"></span>
+                                </td>
+                            </tr>
+                            <tr t-if="waybill_picking.route_id">
+                                <td>
+                                    <strong>Route:</strong>
+                                </td>
+                                <td>
+                                    <span t-field="waybill_picking.route_id.name"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <table class="table table-sm">
+                            <thead>
+                                <th>Quantity</th>
+                                <th>Unit</th>
+                                <th>Description</th>
+                            </thead>
+                            <tbody>
+                                <t t-set="lines"
+                                    t-value="waybill_picking.picking_id.move_ids.filtered(lambda x: x.quantity)" />
+                                <tr t-foreach="lines" t-as="move">
+                                    <td>
+                                        <span t-field="move.quantity"></span>
+                                    </td>
+                                    <td>
+                                        <span t-field="move.product_uom"></span>
+                                    </td>
+                                    <td>
+                                        <span t-field="move.product_id.product_tmpl_id.name"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_ec_waybill_accioma.report_waybill_driver">
+        <!-- Invoice & driver information -->
+        <div id="informations" class="row mt-4 mb-4">
+            <t t-set="driver" t-value="o.driver_id" />
+            <div class="col-auto col-3 mw-100 mb-2" name="l10n_ec_driver">
+                <strong>Driver </strong>
+                <p class="m-0">
+                    <t t-out="driver.commercial_company_name or driver.name" />
+                    <div t-if="driver.vat">
+                        <t t-if="driver.l10n_latam_identification_type_id"
+                            t-out="driver.l10n_latam_identification_type_id.name"
+                            id="inv_tax_id_label" />
+                        <t t-else="">RUC/Cédula</t>: <span
+                            t-field="driver.vat" />
+                    </div>
+                </p>
+            </div>
+            <div class="col-auto col-3 mw-100 mb-2" style="padding-left: 2em"
+                name="l10n_ec_withhold_date">
+                <strong>Plate:</strong>
+                <p class="m-0" style="padding-left: 2em" t-field="o.vehicle_id.license_plate" />
+            </div>
+            <div class="col-auto col-3 mw-100 mb-2" name="l10n_ec_withhold_date">
+                <strong>Start Place:</strong>
+                <p class="m-0" t-field="o.location_id.warehouse_id.partner_id.street" />
+                <p class="m-0" t-field="o.location_id.warehouse_id.partner_id.street2" />
+            </div>
+            <div class="col-auto col-3 mw-100 mb-2" name="l10n_ec_withhold_date">
+                <strong>Date Transportation:</strong>
+                <p class="m-0">Start:<span t-field="o.date"></span></p>
+                <p class="m-0">End:<span t-field="o.date_due"></span></p>
+            </div>
+        </div>
+    </template>
+    <template id="l10n_ec_waybill_accioma.report_waybill_signature">
+        <div class="row" style="margin-top: 25px" >
+            <div class="col-auto col-4 mw-100 mb-2" style="border-top: 1px solid">
+                Entregado por:
+            </div>
+            <div class="col-auto col-4 mw-100 mb-2"></div>
+            <div class="col-auto col-4 mw-100 mb-2" style="border-top: 1px solid">Recibido por:</div>
+        </div>
+    </template>
+    <template id="l10n_ec_waybill_accioma.report_waybill_additional_info">
+        <div class="row">
+            <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'}">
+                <table class="table table-sm table-borderless" style="page-break-inside: avoid">
+                    <thead>
+                        <tr>
+                            <th class="text-center" colspan="2">Additional Information</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="o.picking_ids" t-as="wpicking">
+                            <t t-set="move" t-value="wpicking.picking_id.move_ids[0]"></t>
+                            <t t-if="move.sale_line_id">
+                                <tr>
+                                    <td>Nombre </td>
+                                    <td><span t-field="move.sale_line_id.order_id.partner_id.name"></span></td>
+                                </tr>
+                                <tr t-if="move.sale_line_id.order_id.partner_id.email">
+                                    <td>Email</td>
+                                    <td><span t-field="move.sale_line_id.order_id.partner_id.email"></span></td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+
+    <template id="l10n_ec_waybill_accioma.report_waybill_ride">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.company_id.partner_id.lang" />
+                <t t-call="web.internal_layout">
+                    <t t-set="o" t-value="o.with_context(lang=lang)" />
+                    <div class="page">
+                        <t t-call="l10n_ec_waybill_accioma.report_waybill_header" t-lang="lang" />
+                        <t t-call="l10n_ec_waybill_accioma.report_waybill_driver" t-lang="lang" />
+                        <t t-call="l10n_ec_waybill_accioma.report_waybill_recipient" t-lang="lang" />
+                        <t t-call="l10n_ec_waybill_accioma.report_waybill_additional_info" t-lang="lang" />
+                        <t t-call="l10n_ec_waybill_accioma.report_waybill_signature" t-lang="lang" />
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

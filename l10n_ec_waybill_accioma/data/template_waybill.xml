@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <template id="l10n_ec_picking_receiver" name="template_l10n_ec_receiver">
+          <destinatario>
+            <identificacionDestinatario t-out="pick.picking_id.l10n_ec_waybill_partner_vat" />
+            <razonSocialDestinatario t-out="pick.picking_id.l10n_ec_waybill_partner_name" />
+            <dirDestinatario t-out="pick.picking_id.l10n_ec_waybill_partner_street" />
+            <motivoTraslado t-out="pick.transport_reason" />
+            <ruta t-out="pick.route_id.name" />
+            <detalles>
+              <!-- <t t-foreach="pick.picking_id.move_line_ids_without_package" t-as="move" > -->
+                <t t-set="lines" t-value="pick.picking_id.move_ids.filtered(lambda x: x.product_uom_qty)"/>
+                <detalle t-foreach="lines" t-as="move">
+                  <codigoInterno t-out="move.product_id.default_code" />
+                  <descripcion t-out="move.product_id.name" />
+                  <!-- <cantidad t-out="'%.0f' % move.qty_done" /> -->
+                  <cantidad t-out="move.quantity"></cantidad>
+                  <detallesAdicionales>
+                    <!-- <t t-if="line.lot_id.name" > -->
+                    <t t-set="has_serial_number" t-value="False"/>
+                    <t t-set="has_serial_number" t-value="move.move_line_ids.mapped('lot_id')" groups="stock.group_lot_on_delivery_slip"/>
+                    <!-- If printing lots/serial numbers => keep products in original lines -->
+                    <t t-if="has_serial_number">
+                        <t t-foreach="move.move_line_ids" t-as="move_line">
+                            <detAdicional nombre="lote" t-att-valor="move_line.lot_id.name" />
+                         </t>
+                    </t>
+                  </detallesAdicionales>
+                </detalle>
+            </detalles>
+          </destinatario>
+  </template>
+
+  <template id="l10n_ec_invoice_receiver" name="template_l10n_ec_receiver">
+          <destinatario>
+            <identificacionDestinatario t-out="pick.invoice_id.partner_id.vat" />
+            <razonSocialDestinatario t-out="pick.invoice_id.partner_id.name" />
+            <dirDestinatario t-out="pick.invoice_id.partner_id.street" />
+            <motivoTraslado t-out="pick.transport_reason" />
+            <ruta t-out="pick.route_id.name" />
+            <codDocSustento t-out="pick.invoice_id.l10n_latam_document_type_id.code" />
+            <numDocSustento t-out="pick.invoice_id.l10n_latam_document_number" />
+            <numAutDocSustento t-out="pick.invoice_id.l10n_ec_authorization_number" />
+            <fechaEmisionDocSustento t-field="pick.invoice_id.invoice_date" t-options="{'format': 'dd/MM/YYYY'}"/>
+            <detalles>
+            <t t-set="lines" t-value="pick.invoice_id.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+            <t t-foreach="lines" t-as="line">
+              <t t-if="line.display_type == 'product'">
+                <detalle>
+                  <codigoInterno t-out="line.product_id.default_code" />
+                  <descripcion t-field="line.name" t-options="{'widget': 'text'}"/>
+                  <cantidad t-out="'%.0f' % line.quantity" />
+                </detalle>
+              </t>
+            </t>
+            </detalles>
+          </destinatario>
+
+  </template>
+  <template id="guia_remision">
+
+    <guiaRemision id="comprobante" version="1.0.0">
+      <infoTributaria>
+        <ambiente t-out="environment" />
+        <tipoEmision t-out="issuing_type" />
+        <razonSocial t-out="record.company_id.partner_id.name" />
+        <nombreComercial t-out="record.company_id.partner_id.tradename" />
+        <ruc t-out="record.company_id.vat" />
+        <claveAcceso t-out="access_key"></claveAcceso>
+        <codDoc>06</codDoc>
+        <estab t-out="record.l10n_ec_waybill_document_number[:3]" />
+        <ptoEmi t-out="record.l10n_ec_waybill_document_number[4:7]" />
+        <secuencial t-out="record.l10n_ec_waybill_document_number[8:17]" />
+        <dirMatriz t-out="record.company_id.street" />
+        <regimenMicroempresas t-if="record.company_id.l10n_ec_regime_microenterprise">CONTRIBUYENTE RÉGIMEN MICROEMPRESAS</regimenMicroempresas>
+        <agenteRetencion t-if="record.company_id.company_registry" t-out="record.company_id.company_registry" />
+      </infoTributaria>
+      <infoGuiaRemision>
+        <!-- <dirEstablecimiento t-if="record.l10n_ec_waybill_shop_address" t-out="record.l10n_ec_waybill_shop_address" /> -->
+        <dirPartida t-out="record.l10n_ec_waybill_warehouse_id.partner_id.street" />
+        <razonSocialTransportista t-out="record.driver_id.name" />
+        <tipoIdentificacionTransportista t-out="driver_partner_type" />
+        <rucTransportista t-out="record.driver_id.vat" />
+        <obligadoContabilidad t-if="record.company_id.l10n_ec_forced_accounting">SI</obligadoContabilidad>
+        <t t-if="record.company_id.company_registry">
+          <contribuyenteEspecial t-if="record.company_id.company_registry" />
+        </t>
+        <fechaIniTransporte t-field="record.date" t-options="{'format': 'dd/MM/YYYY'}" />
+        <fechaFinTransporte t-field="record.date_due" t-options="{'format': 'dd/MM/YYYY'}" />
+        <placa t-out="record.vehicle_id.license_plate" />
+      </infoGuiaRemision>
+      <destinatarios>
+        <t t-foreach="record.picking_ids" t-as="pick">
+            <t t-if="pick.invoice_id">
+                <t t-call="l10n_ec_waybill_accioma.l10n_ec_invoice_receiver"/>
+            </t>
+            <t t-elif="pick.picking_id">
+                <t t-call="l10n_ec_waybill_accioma.l10n_ec_picking_receiver"/>
+            </t>
+            <t t-else="">
+            </t>
+        </t>
+      </destinatarios>
+      <infoAdicional>
+        <campoAdicional nombre="email" t-field="record.driver_id.email" />
+        <t t-foreach="record.l10n_ec_add_info_ids" t-as="addinfo">
+          <campoAdicional t-attf-nombre="{{ addinfo.key }}" t-out="addinfo.value" />
+        </t>
+      </infoAdicional>
+    </guiaRemision>
+
+  </template>
+</odoo>
